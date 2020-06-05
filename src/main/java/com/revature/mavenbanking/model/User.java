@@ -1,6 +1,6 @@
 package com.revature.mavenbanking.model;
 
-public abstract class AbstractUser {
+public abstract class User {
 	
 	// Need to enforce the uniqueness constraint 
 	// on userId and Email
@@ -12,9 +12,7 @@ public abstract class AbstractUser {
 	private String email;
 	private Role role;
 	
-	
-	
-	public AbstractUser(int userId, String username, String password, String firstName, String lastName, String email,
+	public User(int userId, String username, String password, String firstName, String lastName, String email,
 			Role role) {
 		super();
 		this.userId = userId;

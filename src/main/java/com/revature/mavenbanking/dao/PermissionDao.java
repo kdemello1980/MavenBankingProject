@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import com.revature.mavenbanking.model.*;
 
 public interface PermissionDao {
+	
+	/*
+	 * Get all permissions, ordered by binaryPermission descending.
+	 */
 	public ArrayList<Permission> getAllPermissions();
 	public Permission getPermissionByID();
 	
@@ -15,5 +19,5 @@ public interface PermissionDao {
 	/*
 	 * Delete permission: not possible. Always return true.
 	 */
-	public static boolean deletePermission () {return true;}
+	public static boolean deletePermission() { return true; }
 }

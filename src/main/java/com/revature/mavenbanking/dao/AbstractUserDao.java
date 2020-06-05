@@ -5,15 +5,15 @@ import java.util.List;
 import com.revature.mavenbanking.model.*;
 
 public interface AbstractUserDao {
-	public List<AbstractUser> getAllUsers();
-	public AbstractUser getUserById(int id);
-	public AbstractUser getUserByUserName(String username);
-	public AbstractUser getUserByEmail(String email);
-	public List<AbstractUser> getUsersByRole(Role role);
-	public List<AbstractUser> getUsersByStatus(AccountStatus status);
+	public List<User> getAllUsers();
+	public User getUserById(int id);
+	public User getUserByUserName(String username);
+	public User getUserByEmail(String email);
+	public List<User> getUsersByRole(Role role);
+	public List<User> getUsersByStatus(AccountStatus status);
 	
-	public boolean addUser(AbstractUser user);
-	public boolean updateUser(AbstractUser user);
+	public boolean addUser(User user);
+	public boolean updateUser(User user);
 	public boolean deleteUserById(String id);
 	public boolean deleteUserByUserName(String name);
 }

@@ -1,6 +1,6 @@
 package com.revature.mavenbanking.model;
 
-public class AccountHolder extends AbstractUser {
+public class AccountHolder extends User {
 
 	public AccountHolder(int userId, String username, String password, String firstName, String lastName, String email,
 			Role role) {

@@ -3,6 +3,7 @@ package com.revature.mavenbanking.model;
 public class Role {
 	private int roleId;
 	private String role;
+	private byte effectivePermissions;
 	
 	/**
 	 * @return the roleId
@@ -30,6 +31,25 @@ public class Role {
 	 */
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	/**
+	 * @return the effectivePermissions
+	 */
+	public byte getEffectivePermissions() {
+		return effectivePermissions;
+	}
+
+	/**
+	 * @param effectivePermissions the effectivePermissions to set
+	 */
+	public void setEffectivePermissions(byte effectivePermissions) {
+		this.effectivePermissions = effectivePermissions;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [roleId=" + roleId + ", role=" + role + ", effectivePermissions=" + effectivePermissions + "]";
 	}
 	
 	

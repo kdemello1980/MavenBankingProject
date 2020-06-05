@@ -1,9 +1,12 @@
 package com.revature.mavenbanking.model;
 
+import java.util.ArrayList;
+
 public class Role {
 	private int roleId;
 	private String role;
-	private byte effectivePermissions;
+	private ArrayList<Permission> effectivePermissions = null;
+
 	
 	/**
 	 * @return the roleId
@@ -36,14 +39,14 @@ public class Role {
 	/**
 	 * @return the effectivePermissions
 	 */
-	public byte getEffectivePermissions() {
+	public ArrayList<Permission> getEffectivePermissions() {
 		return effectivePermissions;
 	}
 
 	/**
 	 * @param effectivePermissions the effectivePermissions to set
 	 */
-	public void setEffectivePermissions(byte effectivePermissions) {
+	public void setEffectivePermissions(ArrayList<Permission> effectivePermissions) {
 		this.effectivePermissions = effectivePermissions;
 	}
 

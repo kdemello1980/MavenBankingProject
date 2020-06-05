@@ -3,6 +3,14 @@ package com.revature.mavenbanking.model;
 public class AccountStatus {
 	private int statusId;
 	private String statusName;
+	
+	public AccountStatus() {}
+	
+	public AccountStatus(int statusId, String statusName) {
+		this.statusId = statusId;
+		this.statusName = statusName;
+	}
+
 	/**
 	 * @return the statusId
 	 */

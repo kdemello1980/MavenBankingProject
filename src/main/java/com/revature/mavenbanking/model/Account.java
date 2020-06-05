@@ -8,6 +8,7 @@ public class Account {
 	private AccountStatus status;
 	private AccountType type;
 	
+	public Account() {}
 		
 	public Account(int accountId, BigDecimal balance, AccountStatus status, AccountType type) {
 		super();

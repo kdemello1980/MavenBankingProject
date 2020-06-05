@@ -2,12 +2,13 @@ package com.revature.mavenbanking.model;
 
 public class Permission {
 	private int permissionId;
-	private byte binaryPermission;
+	private String permissionName;
 	
-	public Permission(int permissionId, byte binaryPermission) {
-		super();
+	public Permission() {}
+	
+	public Permission(int permissionId, String permission) {
 		this.permissionId = permissionId;
-		this.binaryPermission = binaryPermission;
+		this.permissionName = permission;
 	}
 	
 	/**
@@ -25,18 +26,18 @@ public class Permission {
 	/**
 	 * @return the binaryPermission
 	 */
-	public byte getBinaryPermission() {
-		return binaryPermission;
+	public String getBinaryPermission() {
+		return permissionName;
 	}
 	/**
-	 * @param binaryPermission the binaryPermission to set
+	 * @param permission the binaryPermission to set
 	 */
-	public void setBinaryPermission(byte binaryPermission) {
-		this.binaryPermission = binaryPermission;
+	public void setBinaryPermission(String permission) {
+		this.permissionName = permission;
 	}
 	@Override
 	public String toString() {
-		return "Permission [permissionId=" + permissionId + ", binaryPermission=" + binaryPermission + "]";
+		return "Permission [permissionId=" + permissionId + ", binaryPermission=" + permissionName + "]";
 	}
 	
 }

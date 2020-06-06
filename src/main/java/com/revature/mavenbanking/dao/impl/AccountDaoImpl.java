@@ -45,13 +45,14 @@ public class AccountDaoImpl implements AccountDao {
 				Account account = new Account(rs.getInt("a.id"),rs.getBigDecimal("a.balance"), stat, type);
 				accountList.add(account);
 			}
+			rs.close();
 			return accountList;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			closeResources();
 		}
-		return accountList;
 	}
 
 	@Override
@@ -80,13 +81,14 @@ public class AccountDaoImpl implements AccountDao {
 				status.setStatusName(rs.getString("s.status"));
 				account = new Account(rs.getInt("a.id"), rs.getBigDecimal("a.balance"), status, type);
 			}
+			rs.close();
 			return account;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			closeResources();
 		}
-		return null;
 	}
 
 	@Override
@@ -109,13 +111,14 @@ public class AccountDaoImpl implements AccountDao {
 				Account a = new Account(rs.getInt("a.id"), rs.getBigDecimal("a.balance"), status, type);
 				accounts.add(a);
 			}
+			rs.close();
 			return accounts;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			closeResources();
 		}
-		return null;
 	}
 
 	@Override
@@ -138,31 +141,81 @@ public class AccountDaoImpl implements AccountDao {
 				Account a = new Account(rs.getInt("a.id"), rs.getBigDecimal("a.balance"), status, type);
 				accounts.add(a);
 			}
+			rs.close();
 			return accounts;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			closeResources();
 		}
-		return null;
 	}
 
 	@Override
 	public boolean addAccount(Account account) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO ACCOUTNT (balance, status, type) VALUES (?, ?, ?)";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setBigDecimal(1, account.getBalance());
+			stmt.setInt(2, account.getStatus().getStatusId());
+			stmt.setInt(3, account.getType().getTypeId());
+			
+			if (stmt.executeUpdate() != 0) 
+				return true;
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public boolean updateAccount(Account account) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "UPDATE accounts SET balance=?, status=?, type=? WHERE account_id=?";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setBigDecimal(1, account.getBalance());
+			stmt.setInt(2, account.getStatus().getStatusId());
+			stmt.setInt(3, account.getType().getTypeId());
+			stmt.setInt(4, account.getAccountId());
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public boolean deleteAccountById(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "DELETE FROM accounts WHERE account_id = ?";
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, id);
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 	// Closing all resources is important, to prevent memory leaks. 
 	// Ideally, you really want to close them in the reverse-order you open them

@@ -26,13 +26,13 @@ public class Permission {
 	/**
 	 * @return the binaryPermission
 	 */
-	public String getBinaryPermission() {
+	public String getPermissionName() {
 		return permissionName;
 	}
 	/**
 	 * @param permission the binaryPermission to set
 	 */
-	public void setBinaryPermission(String permission) {
+	public void setPermissionName(String permission) {
 		this.permissionName = permission;
 	}
 	@Override

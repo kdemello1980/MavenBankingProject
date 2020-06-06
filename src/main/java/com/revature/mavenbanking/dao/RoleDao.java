@@ -10,6 +10,13 @@ public interface RoleDao {
 	public Role getRoleById(int id);
 	public Role getRoleByName(String name);
 	
+	/*
+	 * Any permissions in the effectivePermissions list are also added to the
+	 * permissions table if necessary, and mappings are added to the role_permissions
+	 * table.
+	 * 
+	 * This executes as a transaction.
+	 */
 	public boolean addRole(Role role);
 	
 	/*
@@ -20,6 +27,8 @@ public interface RoleDao {
 	 * role are removed.  This is probably not what you want, so be sure to
 	 * pass the effective permissions list as explicitly intended in the
 	 * role object to be updated.
+	 * 
+	 * This executes as a transaction.
 	 */
 	public boolean updateRole(Role role);
 	

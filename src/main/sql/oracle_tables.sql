@@ -73,15 +73,15 @@ CREATE TABLE user_accounts(
 );
 -- constraints --
 ALTER TABLE accounts
-    ADD CONSTRAINT fk_accounts_type FOREIGN KEY (type) REFERENCES account_types(type_id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_accounts_type FOREIGN KEY (type) REFERENCES account_types(type_id);
 ALTER TABLE accounts
-    ADD CONSTRAINT fk_accounts_status FOREIGN KEY (status) REFERENCES account_status(status_id) ON DELETE CASCADE;
-
+    ADD CONSTRAINT fk_accounts_status FOREIGN KEY (status) REFERENCES account_status(status_id);
+    
 ALTER TABLE account_types
 	ADD CONSTRAINT fk_account_types_permissions FOREIGN KEY (permission_id) REFERENCES permissions(permission_id);
                   
 ALTER TABLE users
-ADD CONSTRAINT fk_users_role FOREIGN KEY (role) REFERENCES roles(role_id) ON DELETE CASCADE;
+ADD CONSTRAINT fk_users_role FOREIGN KEY (role) REFERENCES roles(role_id);
 
 ALTER TABLE user_accounts
     ADD CONSTRAINT fk_user_accounts_account FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE;

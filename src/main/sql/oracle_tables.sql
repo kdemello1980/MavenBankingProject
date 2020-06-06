@@ -27,6 +27,7 @@ CREATE TABLE account_types(
     type VARCHAR2(64) UNIQUE,
     interest_rate NUMBER(38,2),
     monthly_fee NUMBER(38,2),
+	permission_id NUMBER,
     PRIMARY KEY(type_id)
 );
 
@@ -75,6 +76,9 @@ ALTER TABLE accounts
     ADD CONSTRAINT fk_accounts_type FOREIGN KEY (type) REFERENCES account_types(type_id) ON DELETE CASCADE;
 ALTER TABLE accounts
     ADD CONSTRAINT fk_accounts_status FOREIGN KEY (status) REFERENCES account_status(status_id) ON DELETE CASCADE;
+
+ALTER TABLE account_types
+	ADD CONSTRAINT fk_account_types_permissions FOREIGN KEY (permission_id) REFERENCES permissions(permission_id);
                   
 ALTER TABLE users
 ADD CONSTRAINT fk_users_role FOREIGN KEY (role) REFERENCES roles(role_id) ON DELETE CASCADE;

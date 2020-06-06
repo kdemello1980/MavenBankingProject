@@ -12,7 +12,6 @@ import com.revature.mavenbanking.dao.oracle.DAOUtilities;
 import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.model.Permission;
 
-import oracle.ucp.common.LoadBalancer.Stats.CloseResultsCounter;
 
 public class RoleDaoImpl implements RoleDao {
 	private Connection connection = null;
@@ -124,6 +123,7 @@ public class RoleDaoImpl implements RoleDao {
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, role.getRole());
 			
+			connection.setAutoCommit(false);
 			if (stmt.executeUpdate() != 0) {
 				PermissionDaoImpl permDao = new PermissionDaoImpl();
 				Role newRole = this.getRoleByName(role.getRole());
@@ -135,7 +135,10 @@ public class RoleDaoImpl implements RoleDao {
 				for (Permission p : addedPermissions) {
 					permDao.addRolePermission(newRole, p);
 				}
+				connection.setAutoCommit(true);
+				return true;
 			} else {
+				connection.setAutoCommit(true);
 				return false;
 			}
 		} catch (SQLException e) {

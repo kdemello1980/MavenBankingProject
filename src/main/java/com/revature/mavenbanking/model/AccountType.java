@@ -6,17 +6,7 @@ public class AccountType {
 	private String type;
 	BigDecimal interestRate;
 	BigDecimal monthlyFee;
-	
-	
-	public AccountType() {}
-	
-	
-
-	public AccountType(int typeId, String type) {
-		this.typeId = typeId;
-		this.type = type;
-	}
-
+	private Permission permission;
 
 
 	/**
@@ -45,8 +35,6 @@ public class AccountType {
 		this.type = type;
 	}
 
-
-
 	/**
 	 * @return the interestRate
 	 */
@@ -54,8 +42,18 @@ public class AccountType {
 		return interestRate;
 	}
 
-
-
+	/**
+	 * @return the permission
+	 */
+	public Permission getPermission() {
+		return permission;
+	}
+	/**
+	 * @param permission the permission to set
+	 */
+	public void setPermission(Permission permission) {
+		this.permission = permission;
+	}
 	/**
 	 * @param interestRate the interestRate to set
 	 */
@@ -78,14 +76,11 @@ public class AccountType {
 	public void setMonthlyFee(BigDecimal monthlyFee) {
 		this.monthlyFee = monthlyFee;
 	}
-
-
-
+	
 	@Override
 	public String toString() {
 		return "AccountType [typeId=" + typeId + ", type=" + type + ", interestRate=" + interestRate + ", monthlyFee="
-				+ monthlyFee + "]";
+				+ monthlyFee + ", permission=" + permission + "]";
 	}
-	
 	
 }

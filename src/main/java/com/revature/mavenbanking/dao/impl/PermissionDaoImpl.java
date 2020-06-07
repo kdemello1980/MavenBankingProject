@@ -73,7 +73,7 @@ public class PermissionDaoImpl implements PermissionDao {
 	public ArrayList<Permission> getPermissionsByRoleId(int id) {
 		ArrayList<Permission> permList = new ArrayList<Permission>();
 
-		String sql = new String("SELECT p.permission_name \"p.permission_name\", p.permission_id \"p.permission-id\", r.role_id \"r.role_id\"\n" + 
+		String sql = new String("SELECT p.permission_name \"p.permission_name\", p.permission_id \"p.permission_id\", r.role_id \"r.role_id\"\n" + 
 				"FROM permissions p, roles r, role_permissions rp\n" + 
 				"WHERE rp.role_id = r.role_id AND p.permission_id = rp.permission_id AND rp.role_id = ?");
 		try {

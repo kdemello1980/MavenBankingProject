@@ -1,12 +1,12 @@
 package com.revature.mavenbanking.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.revature.mavenbanking.model.Role;
 
 public interface RoleDao {
 	
-	public List<Role> getAllRoles();
+	public ArrayList<Role> getAllRoles();
 	public Role getRoleById(int id);
 	public Role getRoleByName(String name);
 	

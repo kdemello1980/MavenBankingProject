@@ -1,7 +1,6 @@
 package com.revature.mavenbanking.dao.impl;
 import com.revature.mavenbanking.dao.RoleDao;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,37 +15,44 @@ import com.revature.mavenbanking.model.Permission;
 public class RoleDaoImpl implements RoleDao {
 	private Connection connection = null;
 	private PreparedStatement stmt = null;
-	
-	public RoleDaoImpl() {
-		try {
-			connection = DAOUtilities.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			closeResources();
-		}
-	}
-	
-	protected void finalize() {
-		closeResources();
-	}
+
+	//this doesn't work
+//	public RoleDaoImpl() {
+//		try {
+//			connection = DAOUtilities.getConnection();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			closeResources();
+//		}
+//	}
+//	
+//	protected void finalize() {
+//		closeResources();
+//	}
 	
 	@Override
-	public List<Role> getAllRoles() {
+	public ArrayList<Role> getAllRoles() {
 		String sql = "SELECT r.role_id \"r.role_id\", r.name \"r.name\" \n"+
 				"FROM roles r";
-		List<Role> result = null;
+		ArrayList<Role> result = null;
 		
 		try {
+			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			result = new ArrayList<Role>();
+		
 			while (rs.next()) {
 				Role r = new Role();
 				r.setRoleId(rs.getInt("r.role_id"));
 				r.setRole(rs.getString("r.name"));
 				result.add(r);
 			}
+			PermissionDaoImpl pdi = new PermissionDaoImpl();
+			for (Role r : result)
+				r.setEffectivePermissions(pdi.getPermissionsByRoleId(r.getRoleId()));
+
 			return result;
 		} catch (SQLException e)  {
 			e.printStackTrace();
@@ -62,6 +68,8 @@ public class RoleDaoImpl implements RoleDao {
 				"FROM roles r\n" +
 				"WHERE r.role_id = ?";
 		try {
+			connection = DAOUtilities.getConnection();
+
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, id);
 			Role r = new Role();
@@ -71,6 +79,9 @@ public class RoleDaoImpl implements RoleDao {
 				r.setRoleId(rs.getInt("r.role_id"));
 				r.setRole(rs.getString("r.name"));
 			}
+			rs.close();
+			PermissionDaoImpl p = new PermissionDaoImpl();
+			r.setEffectivePermissions(p.getPermissionsByRoleId(r.getRoleId()));
 			return r;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,6 +96,8 @@ public class RoleDaoImpl implements RoleDao {
 		String sql = "SELECT r.role_id \"r.role_id\", r.name \"r.name\"\n" +
 				"FROM roles r WHERE r.name =?";
 		try {
+			connection = DAOUtilities.getConnection();
+
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, name);
 			ResultSet rs = stmt.executeQuery();
@@ -120,6 +133,8 @@ public class RoleDaoImpl implements RoleDao {
 		String sql = "INSERT into roles (name) VALUES (?)";
 		
 		try {
+			connection = DAOUtilities.getConnection();
+
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, role.getRole());
 			

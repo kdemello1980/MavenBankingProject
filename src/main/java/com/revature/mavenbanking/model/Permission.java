@@ -37,7 +37,7 @@ public class Permission {
 	}
 	@Override
 	public String toString() {
-		return "Permission [permissionId=" + permissionId + ", binaryPermission=" + permissionName + "]";
+		return "Permission [permissionId=" + permissionId + ", permissionName=" + permissionName + "]";
 	}
 	
 }

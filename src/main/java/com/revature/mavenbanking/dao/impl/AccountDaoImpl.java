@@ -20,9 +20,9 @@ public class AccountDaoImpl implements AccountDao {
 	public ArrayList<Account> getAllAccounts() {
 		ArrayList<Account> accountList = new ArrayList<Account>();
 
-		String sql = new String("SELECT a.id \"a.id\", a.balance \"a.balance\", s.id \"s.id\", s.status \"s.status\", t.id \"t.id\", t.type \"t.type\"\n" + 
+		String sql = new String("SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", s.status \"s.status\", t.type_id \"t.type_id\", t.type \"t.type\"\n" + 
 				"FROM accounts a, account_status s, account_types t\n" + 
-				"WHERE a.status = s.id AND a.type = t.id;");
+				"WHERE a.status = s.status_id AND a.type = t.type_id");
 //		String sql = "SELECT * FROM account_types";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -32,17 +32,17 @@ public class AccountDaoImpl implements AccountDao {
 			while (rs.next()) {
 				// Grab the s.id and s.status to create the AccountStatus object
 				AccountStatus stat = new AccountStatus();
-				stat.setStatusId(rs.getInt("s.id"));
+				stat.setStatusId(rs.getInt("s.status_id"));
 				stat.setStatusName(rs.getString("s.status"));
 				
 				// Grab the t.id and t.type to get the account type.
 				AccountType type = new AccountType();
-				type.setTypeId(rs.getInt("t.id"));
+				type.setTypeId(rs.getInt("t.type_id"));
 				type.setAccountType(rs.getString("t.type"));
 				
 				// I'm not sure how to cast the MONEY type to double here, if it's necessary or even possible.
 				// Using BigDecimal with the NUMERIC data type is recommended here.
-				Account account = new Account(rs.getInt("a.id"),rs.getBigDecimal("a.balance"), stat, type);
+				Account account = new Account(rs.getInt("a.account_id"),rs.getBigDecimal("a.balance"), stat, type);
 				accountList.add(account);
 			}
 			rs.close();
@@ -57,9 +57,9 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public Account getAccountById(int id) {
-		String sql = "SELECT a.id \"a.id\", a.balance \"a.balance\", s.id \"s.id\", s.status \"s.status\", t.id \"t.id\", t.type \"t.type\"\n"+
+		String sql = "SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", s.status \"s.status\", t.type_id \"t.type_id\", t.type \"t.type\"\n"+
 				"FROM accounts a, account_status s, account_types t \n" +
-				"WHERE a.status=s.id AND a.type=t.id AND a.id=?";
+				"WHERE a.status=s.status_id AND a.type=t.type_id AND a.account_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -74,12 +74,12 @@ public class AccountDaoImpl implements AccountDao {
 			while (rs.next()) {
 				type = new AccountType();
 				type.setAccountType(rs.getString("t.type"));
-				type.setTypeId(rs.getInt("t.id"));
+				type.setTypeId(rs.getInt("t.type_id"));
 				
 				status = new AccountStatus();
-				status.setStatusId(rs.getInt("s.id"));
+				status.setStatusId(rs.getInt("s.status_id"));
 				status.setStatusName(rs.getString("s.status"));
-				account = new Account(rs.getInt("a.id"), rs.getBigDecimal("a.balance"), status, type);
+				account = new Account(rs.getInt("a.account_id"), rs.getBigDecimal("a.balance"), status, type);
 			}
 			rs.close();
 			return account;
@@ -93,9 +93,9 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public ArrayList<Account> getAccountsByType(AccountType type) {
-		String sql = "SELECT a.id \"a.id\", a.balance \"a.balance\", s.id \"s.id\", s.status \"s.status\", t.id \"t.id\", t.type \"t.type\"\n"+
+		String sql = "SELECT a.account_id \"a.id\", a.balance \"a.balance\", s.status_id \"s.id\", s.status \"s.status\", t.type_id \"t.id\", t.type \"t.type\"\n"+
 				"FROM accounts a, account_status s, account_types t \n" +
-				"WHERE a.status=s.id AND a.type=t.id AND t.id=?";
+				"WHERE a.status=s.status_id AND a.type=t.type_id AND t.type_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -123,9 +123,9 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public ArrayList<Account> getAccountsByStatus(AccountStatus status) {
-		String sql = "SELECT a.id \"a.id\", a.balance \"a.balance\", s.id \"s.id\", s.status \"s.status\", t.id \"t.id\", t.type \"t.type\"\n"+
+		String sql = "SELECT a.account_id \"a.id\", a.balance \"a.balance\", s.status_id \"s.id\", s.status \"s.status\", t.type_id \"t.id\", t.type \"t.type\"\n"+
 				"FROM accounts a, account_status s, account_types t \n" +
-				"WHERE a.status=s.id AND a.type=t.id AND s.id=?";
+				"WHERE a.status=s.status_id AND a.type=t.type_id AND s.status_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);

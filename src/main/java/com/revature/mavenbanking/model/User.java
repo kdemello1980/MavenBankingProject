@@ -1,6 +1,6 @@
 package com.revature.mavenbanking.model;
 
-public abstract class User {
+public class User {
 	
 	// Need to enforce the uniqueness constraint 
 	// on userId and Email

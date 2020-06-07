@@ -84,9 +84,9 @@ ALTER TABLE users
 ADD CONSTRAINT fk_users_role FOREIGN KEY (role) REFERENCES roles(role_id);
 
 ALTER TABLE user_accounts
-    ADD CONSTRAINT fk_user_accounts_account FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_user_accounts_account FOREIGN KEY (account_id) REFERENCES accounts(account_id);
 ALTER TABLE user_accounts
-    ADD CONSTRAINT fk_user_accounts_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE;
+    ADD CONSTRAINT fk_user_accounts_user FOREIGN KEY (user_id) REFERENCES users(user_id);
 
 ALTER TABLE role_permissions
     ADD CONSTRAINT fk_role_permission_role FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE;

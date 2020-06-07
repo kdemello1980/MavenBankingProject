@@ -1,61 +1,230 @@
 package com.revature.mavenbanking.dao.impl;
 import com.revature.mavenbanking.dao.UserDao;
 
-import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.revature.mavenbanking.dao.oracle.DAOUtilities;
 import com.revature.mavenbanking.model.User;
 import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.Role;
+import com.revature.mavenbanking.dao.impl.RoleDaoImpl;
 
 public class UserDaoImpl implements UserDao {
+	Connection connection;
+	PreparedStatement stmt;
 
 	@Override
-	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<User> getAllUsers() {
+		String sql = "SELECT * FROM users";
+		ArrayList<User> users = null;
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			users = new ArrayList<User>();
+			RoleDaoImpl rdi = new RoleDaoImpl();
+
+			while (rs.next()) {
+				User u = new User();
+				u.setUserId(rs.getInt("user_id"));
+				u.setUsername(rs.getString("username"));
+				u.setEmail(rs.getString("email"));
+				u.setPassword(rs.getString("user_pwd"));
+				u.setFirstName(rs.getString("firstname"));
+				u.setLastName(rs.getString("lastname"));
+				u.setRole(rdi.getRoleById(rs.getInt("role")));
+				users.add(u);
+			}
+			return users;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}		
 	}
+
 
 	@Override
 	public User getUserById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM users WHERE user_id=?";
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, id);
+			RoleDaoImpl rdi = new RoleDaoImpl();
+			
+			ResultSet rs = stmt.executeQuery();
+			User u = new User();
+			while (rs.next()) {
+				u.setUserId(rs.getInt("user_id"));
+				u.setUsername(rs.getString("username"));
+				u.setEmail(rs.getString("email"));
+				u.setPassword(rs.getString("user_pwd"));
+				u.setFirstName(rs.getString("firstname"));
+				u.setLastName(rs.getString("lastname"));
+				u.setRole(rdi.getRoleById(rs.getInt("role")));
+			}
+			return u;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public User getUserByUserName(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM users WHERE username=?";
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, username);
+			RoleDaoImpl rdi = new RoleDaoImpl();
+			
+			ResultSet rs = stmt.executeQuery();
+			User u = new User();
+			while (rs.next()) {
+				u.setUserId(rs.getInt("user_id"));
+				u.setUsername(rs.getString("username"));
+				u.setEmail(rs.getString("email"));
+				u.setPassword(rs.getString("user_pwd"));
+				u.setFirstName(rs.getString("firstname"));
+				u.setLastName(rs.getString("lastname"));
+				u.setRole(rdi.getRoleById(rs.getInt("role")));
+			}
+			return u;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public User getUserByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM users WHERE email=?";
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			RoleDaoImpl rdi = new RoleDaoImpl();
+			
+			ResultSet rs = stmt.executeQuery();
+			User u = new User();
+			while (rs.next()) {
+				u.setUserId(rs.getInt("user_id"));
+				u.setUsername(rs.getString("username"));
+				u.setEmail(rs.getString("email"));
+				u.setPassword(rs.getString("user_pwd"));
+				u.setFirstName(rs.getString("firstname"));
+				u.setLastName(rs.getString("lastname"));
+				u.setRole(rdi.getRoleById(rs.getInt("role")));
+			}
+			return u;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
-	public List<User> getUsersByRole(Role role) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ArrayList<User> getUsersByRole(Role role) {
+		String sql = "SELECT * FROM users WHERE role_id=?";
+		ArrayList<User> users = null;
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, role.getRoleId());
+			ResultSet rs = stmt.executeQuery();
+			users = new ArrayList<User>();
+			RoleDaoImpl rdi = new RoleDaoImpl();
 
-	@Override
-	public List<User> getUsersByStatus(AccountStatus status) {
-		// TODO Auto-generated method stub
-		return null;
+			while (rs.next()) {
+				User u = new User();
+				u.setUserId(rs.getInt("user_id"));
+				u.setUsername(rs.getString("username"));
+				u.setEmail(rs.getString("email"));
+				u.setPassword(rs.getString("user_pwd"));
+				u.setFirstName(rs.getString("firstname"));
+				u.setLastName(rs.getString("lastname"));
+				u.setRole(rdi.getRoleById(rs.getInt("role")));
+				users.add(u);
+			}
+			return users;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}	
 	}
 
 	@Override
 	public boolean addUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO users (user_id, username, user_pwd, email, firstname, lastname, role \n" +
+				"VALUES (?, ?, ?, ?, ?, ?, ?)";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, user.getUserId());
+			stmt.setString(2, user.getUsername());
+			stmt.setString(3, user.getPassword());
+			stmt.setString(4, user.getEmail());
+			stmt.setString(5, user.getFirstName());
+			stmt.setString(6, user.getLastName());
+			stmt.setInt(7, user.getRole().getRoleId());
+			
+			if (stmt.executeUpdate() != 0) 
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public boolean updateUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "INSERT INTO users (user_id, username, user_pwd, email, firstname, lastname, role \n" +
+				"VALUES (?, ?, ?, ?, ?, ?, ?)";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, user.getUserId());
+			stmt.setString(2, user.getUsername());
+			stmt.setString(3, user.getPassword());
+			stmt.setString(4, user.getEmail());
+			stmt.setString(5, user.getFirstName());
+			stmt.setString(6, user.getLastName());
+			stmt.setInt(7, user.getRole().getRoleId());
+			
+			if (stmt.executeUpdate() != 0) 
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
@@ -69,5 +238,22 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	private void closeResources() {
+		try {
+			if (stmt != null)
+				stmt.close();
+		} catch (SQLException e) {
+			System.out.println("Could not close statement!");
+			e.printStackTrace();
+		}
+		
+		try {
+			if (connection != null)
+				connection.close();
+		} catch (SQLException e) {
+			System.out.println("Could not close connection!");
+			e.printStackTrace();
+		}
+	}
 }

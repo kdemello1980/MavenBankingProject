@@ -1,16 +1,15 @@
 package com.revature.mavenbanking.dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.revature.mavenbanking.model.*;
 
 public interface UserDao {
-	public List<User> getAllUsers();
+	public ArrayList<User> getAllUsers();
 	public User getUserById(int id);
 	public User getUserByUserName(String username);
 	public User getUserByEmail(String email);
-	public List<User> getUsersByRole(Role role);
-	public List<User> getUsersByStatus(AccountStatus status);
+	public ArrayList<User> getUsersByRole(Role role);
 	
 	public boolean addUser(User user);
 	public boolean updateUser(User user);

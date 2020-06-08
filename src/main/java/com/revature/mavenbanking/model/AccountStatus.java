@@ -1,6 +1,7 @@
 package com.revature.mavenbanking.model;
 
 public class AccountStatus {
+
 	private int statusId;
 	private String statusName;
 	
@@ -36,6 +37,9 @@ public class AccountStatus {
 		this.statusName = status;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "AccountStatus [statusId=" + statusId + ", statusName=" + statusName + "]";
+	}
 
 }

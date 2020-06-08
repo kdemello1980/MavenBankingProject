@@ -5,8 +5,6 @@ import com.revature.mavenbanking.dao.AccountTypeDao;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +21,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 	@Override
 	public List<AccountType> getAllAccountTypes() {
-		String sql = "SELECT * FROM account_types";
+		String sql = "SELECT * FROM kmdm_account_types";
 		List<AccountType> list = new ArrayList<AccountType>();
 		
 		try {
@@ -49,7 +47,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 	@Override
 	public AccountType getAccountTypeById(int id) {
-		String sql = "SELECT type, interest_rate, monthly_fee FROM account_types WHERE type_id=?";
+		String sql = "SELECT type, interest_rate, monthly_fee FROM kmdm_account_types WHERE type_id=?";
 		AccountType temp = null;
 
 		try {
@@ -76,7 +74,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 	@Override
 	public boolean addAccountType(AccountType type) {
-		String sql = "INSERT INTO account_types(type, interest_rate, monthly_fee)\n" +
+		String sql = "INSERT INTO kmdm_account_types(type, interest_rate, monthly_fee)\n" +
 				"VALUES (?,?,?)";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -99,7 +97,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 	@Override
 	public boolean updateAccountType(AccountType type) {
-		String sql = "UPDATE account_types SET type = ?, monthly_fee = ?, interest_rate = ?\n" +
+		String sql = "UPDATE kmdm_account_types SET type = ?, monthly_fee = ?, interest_rate = ?\n" +
 				"WHERE type_id = ?";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -130,7 +128,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 	 */
 	@Override
 	public boolean deleteAccountTypeById(int id) {
-		String sql = "DELETE FROM account_types WHERE type_id = ?";
+		String sql = "DELETE FROM kmdm_account_types WHERE type_id = ?";
 		
 		try {
 			connection = DAOUtilities.getConnection();

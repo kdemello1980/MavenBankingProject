@@ -13,6 +13,6 @@ public interface UserDao {
 	
 	public boolean addUser(User user);
 	public boolean updateUser(User user);
-	public boolean deleteUserById(String id);
+	public boolean deleteUserById(int id);
 	public boolean deleteUserByUserName(String name);
 }

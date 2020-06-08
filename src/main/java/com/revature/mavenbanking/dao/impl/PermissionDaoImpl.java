@@ -12,15 +12,15 @@ import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.dao.oracle.DAOUtilities;
 
 public class PermissionDaoImpl implements PermissionDao {
-	Connection connection = null;
-	PreparedStatement stmt = null;
+	private Connection connection;
+	private PreparedStatement stmt;
 	
 	@Override
 	public ArrayList<Permission> getAllPermissions() {
 		ArrayList<Permission> permList = new ArrayList<Permission>();
 
 		String sql = new String("SELECT p.permission_id \"p.permission_id\", p.permission_name \"p.permission_name\"\n" + 
-				"FROM permissions p");
+				"FROM kmdm_permissions p");
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);			
@@ -45,7 +45,7 @@ public class PermissionDaoImpl implements PermissionDao {
 	@Override
 	public Permission getPermissionByID(int id) {
 		String sql = new String("SELECT p.permission_id \"p.permission_id\", p.permission_name \"p.permission_name\"\n" + 
-				"FROM permissions p WHERE p.permission_id= ?");
+				"FROM kmdm_permissions p WHERE p.permission_id= ?");
 		Permission perm = null;
 
 		try {
@@ -74,7 +74,7 @@ public class PermissionDaoImpl implements PermissionDao {
 		ArrayList<Permission> permList = new ArrayList<Permission>();
 
 		String sql = new String("SELECT p.permission_name \"p.permission_name\", p.permission_id \"p.permission_id\", r.role_id \"r.role_id\"\n" + 
-				"FROM permissions p, roles r, role_permissions rp\n" + 
+				"FROM kmdm_permissions p, kmdm_roles r, kmdm_role_permissions rp\n" + 
 				"WHERE rp.role_id = r.role_id AND p.permission_id = rp.permission_id AND rp.role_id = ?");
 		try {
 			connection = DAOUtilities.getConnection();
@@ -83,6 +83,7 @@ public class PermissionDaoImpl implements PermissionDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
+				System.out.println("made it");
 				Permission temp = new Permission();
 				temp.setPermissionId(rs.getInt("p.permission_id"));
 				temp.setPermissionName(rs.getString("p.permission_name"));
@@ -100,8 +101,7 @@ public class PermissionDaoImpl implements PermissionDao {
 
 	@Override
 	public boolean addPermission(String name) {
-		String sql = "INSERT INTO permissions (permission_name) VALUES (?)";
-		boolean success = false;
+		String sql = "INSERT INTO kmdm_permissions (permission_name) VALUES (?)";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -122,7 +122,7 @@ public class PermissionDaoImpl implements PermissionDao {
 	
 	@Override
 	public boolean addRolePermission(Role role, Permission permission) {
-		String sql = "INSERT INTO role_permissions (role_id, permission_id) VALUES (?,?)";
+		String sql = "INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (?,?)";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -143,7 +143,7 @@ public class PermissionDaoImpl implements PermissionDao {
 
 	@Override
 	public boolean removeRolePermission(Role role, Permission permission) {
-		String sql = "DELETE FROM role_permissions WHERE role_id = ? AND permission_id = ?";
+		String sql = "DELETE FROM kmdm_role_permissions WHERE role_id = ? AND permission_id = ?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);

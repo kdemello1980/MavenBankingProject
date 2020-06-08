@@ -13,15 +13,15 @@ import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.AccountType;
 
 public class AccountDaoImpl implements AccountDao {
-	Connection connection = null;
-	PreparedStatement stmt = null;
+	private Connection connection;
+	private PreparedStatement stmt;
 	
 	@Override
 	public ArrayList<Account> getAllAccounts() {
 		ArrayList<Account> accountList = new ArrayList<Account>();
 
 		String sql = new String("SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", s.status \"s.status\", t.type_id \"t.type_id\", t.type \"t.type\"\n" + 
-				"FROM accounts a, account_status s, account_types t\n" + 
+				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t\n" + 
 				"WHERE a.status = s.status_id AND a.type = t.type_id");
 //		String sql = "SELECT * FROM account_types";
 		try {
@@ -58,7 +58,7 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public Account getAccountById(int id) {
 		String sql = "SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", s.status \"s.status\", t.type_id \"t.type_id\", t.type \"t.type\"\n"+
-				"FROM accounts a, account_status s, account_types t \n" +
+				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t \n" +
 				"WHERE a.status=s.status_id AND a.type=t.type_id AND a.account_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -94,7 +94,7 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public ArrayList<Account> getAccountsByType(AccountType type) {
 		String sql = "SELECT a.account_id \"a.id\", a.balance \"a.balance\", s.status_id \"s.id\", s.status \"s.status\", t.type_id \"t.id\", t.type \"t.type\"\n"+
-				"FROM accounts a, account_status s, account_types t \n" +
+				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t \n" +
 				"WHERE a.status=s.status_id AND a.type=t.type_id AND t.type_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -124,7 +124,7 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public ArrayList<Account> getAccountsByStatus(AccountStatus status) {
 		String sql = "SELECT a.account_id \"a.id\", a.balance \"a.balance\", s.status_id \"s.id\", s.status \"s.status\", t.type_id \"t.id\", t.type \"t.type\"\n"+
-				"FROM accounts a, account_status s, account_types t \n" +
+				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t \n" +
 				"WHERE a.status=s.status_id AND a.type=t.type_id AND s.status_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -153,7 +153,7 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public boolean addAccount(Account account) {
-		String sql = "INSERT INTO ACCOUTNT (balance, status, type) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO kmdm_accounts (balance, status, type) VALUES (?, ?, ?)";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -176,7 +176,7 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public boolean updateAccount(Account account) {
-		String sql = "UPDATE accounts SET balance=?, status=?, type=? WHERE account_id=?";
+		String sql = "UPDATE kmdm_accounts SET balance=?, status=?, type=? WHERE account_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -199,7 +199,7 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public boolean deleteAccountById(int id) {
-		String sql = "DELETE FROM accounts WHERE account_id = ?";
+		String sql = "DELETE FROM kmdm_accounts WHERE account_id = ?";
 		
 		try {
 			connection = DAOUtilities.getConnection();

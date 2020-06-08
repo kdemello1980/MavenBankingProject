@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import com.revature.mavenbanking.dao.impl.*;
 
 public class DAOUtilities {
-	private static final String CONNECTION_USERNAME = "kenneth";
-	private static final String CONNECTION_PASSWORD = "kenneth";
-	private static final String URL = "jdbc:oracle:thin:@192.168.0.183:1521/orcl";
+	private static final String CONNECTION_USERNAME = "admin";
+	private static final String CONNECTION_PASSWORD = "12345678";
+	private static final String URL = "jdbc:oracle:thin:@database-2.c0rzi76acgyn.us-east-1.rds.amazonaws.com:1521/FIRSTDB";
 	private static Connection conneciton;
 
 	public static synchronized Connection getConnection() throws SQLException {

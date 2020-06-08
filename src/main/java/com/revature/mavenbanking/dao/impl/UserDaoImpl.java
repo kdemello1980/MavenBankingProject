@@ -9,17 +9,16 @@ import java.util.ArrayList;
 
 import com.revature.mavenbanking.dao.oracle.DAOUtilities;
 import com.revature.mavenbanking.model.User;
-import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.Role;
-import com.revature.mavenbanking.dao.impl.RoleDaoImpl;
+//import com.revature.mavenbanking.dao.impl.RoleDaoImpl;
 
 public class UserDaoImpl implements UserDao {
-	Connection connection;
-	PreparedStatement stmt;
+	private Connection connection;
+	private PreparedStatement stmt;
 
 	@Override
 	public ArrayList<User> getAllUsers() {
-		String sql = "SELECT * FROM users";
+		String sql = "SELECT user_id, username, email, user_pwd, firstname, lastname, role FROM kmdm_users";
 		ArrayList<User> users = null;
 		
 		try {
@@ -30,6 +29,7 @@ public class UserDaoImpl implements UserDao {
 			RoleDaoImpl rdi = new RoleDaoImpl();
 
 			while (rs.next()) {
+				System.out.println("found users");
 				User u = new User();
 				u.setUserId(rs.getInt("user_id"));
 				u.setUsername(rs.getString("username"));
@@ -52,14 +52,13 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserById(int id) {
-		String sql = "SELECT * FROM users WHERE user_id=?";
+		String sql = "SELECT * FROM kmdm_users WHERE user_id=?";
 		
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, id);
-			RoleDaoImpl rdi = new RoleDaoImpl();
-			
+
 			ResultSet rs = stmt.executeQuery();
 			User u = new User();
 			while (rs.next()) {
@@ -69,8 +68,9 @@ public class UserDaoImpl implements UserDao {
 				u.setPassword(rs.getString("user_pwd"));
 				u.setFirstName(rs.getString("firstname"));
 				u.setLastName(rs.getString("lastname"));
-				u.setRole(rdi.getRoleById(rs.getInt("role")));
+				u.setRole(new RoleDaoImpl().getRoleById(rs.getInt("role")));
 			}
+
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByUserName(String username) {
-		String sql = "SELECT * FROM users WHERE username=?";
+		String sql = "SELECT * FROM kmdm_users WHERE username=?";
 		
 		try {
 			connection = DAOUtilities.getConnection();
@@ -112,7 +112,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByEmail(String email) {
-		String sql = "SELECT * FROM users WHERE email=?";
+		String sql = "SELECT * FROM kmdm_users WHERE email=?";
 		
 		try {
 			connection = DAOUtilities.getConnection();
@@ -142,7 +142,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public ArrayList<User> getUsersByRole(Role role) {
-		String sql = "SELECT * FROM users WHERE role_id=?";
+		String sql = "SELECT * FROM kmdm_users WHERE role_id=?";
 		ArrayList<User> users = null;
 		
 		try {
@@ -175,7 +175,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean addUser(User user) {
-		String sql = "INSERT INTO users (user_id, username, user_pwd, email, firstname, lastname, role \n" +
+		String sql = "INSERT INTO kmdm_users (user_id, username, user_pwd, email, firstname, lastname, role \n" +
 				"VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -202,19 +202,19 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUser(User user) {
-		String sql = "INSERT INTO users (user_id, username, user_pwd, email, firstname, lastname, role \n" +
-				"VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "UPDATE kmdm_users SET username=?, user_pwd=?, email=?, firstnme=?, lastname=?, role=?\n" +
+				"WHERE user_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, user.getUserId());
-			stmt.setString(2, user.getUsername());
-			stmt.setString(3, user.getPassword());
-			stmt.setString(4, user.getEmail());
-			stmt.setString(5, user.getFirstName());
-			stmt.setString(6, user.getLastName());
-			stmt.setInt(7, user.getRole().getRoleId());
-			
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getEmail());
+			stmt.setString(4, user.getFirstName());
+			stmt.setString(5, user.getLastName());
+			stmt.setInt(6, user.getRole().getRoleId());
+			stmt.setInt(7, user.getUserId());
+
 			if (stmt.executeUpdate() != 0) 
 				return true;
 			else
@@ -228,15 +228,45 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean deleteUserById(String id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteUserById(int id) {
+		String sql = "DELETE FROM kmdm_users WHERE user_id=?";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, id);
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public boolean deleteUserByUserName(String name) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "DELETE FROM kmdm_users WHERE username=?";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, name);
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 	
 	private void closeResources() {

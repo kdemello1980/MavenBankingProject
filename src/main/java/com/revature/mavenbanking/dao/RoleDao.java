@@ -13,9 +13,7 @@ public interface RoleDao {
 	/*
 	 * Any permissions in the effectivePermissions list are also added to the
 	 * permissions table if necessary, and mappings are added to the role_permissions
-	 * table.
-	 * 
-	 * This executes as a transaction.
+	 * table. 
 	 */
 	public boolean addRole(Role role);
 	
@@ -26,9 +24,7 @@ public interface RoleDao {
 	 * permissions list is null, then all permissions that already exist for that 
 	 * role are removed.  This is probably not what you want, so be sure to
 	 * pass the effective permissions list as explicitly intended in the
-	 * role object to be updated.
-	 * 
-	 * This executes as a transaction.
+	 * role object to be updated.	 
 	 */
 	public boolean updateRole(Role role);
 	

@@ -13,8 +13,8 @@ import com.revature.mavenbanking.model.Permission;
 
 
 public class RoleDaoImpl implements RoleDao {
-	private Connection connection = null;
-	private PreparedStatement stmt = null;
+	private Connection connection;
+	private PreparedStatement stmt;
 
 	//this doesn't work
 //	public RoleDaoImpl() {
@@ -34,7 +34,7 @@ public class RoleDaoImpl implements RoleDao {
 	@Override
 	public ArrayList<Role> getAllRoles() {
 		String sql = "SELECT r.role_id \"r.role_id\", r.name \"r.name\" \n"+
-				"FROM roles r";
+				"FROM kmdm_roles r";
 		ArrayList<Role> result = null;
 		
 		try {
@@ -65,7 +65,7 @@ public class RoleDaoImpl implements RoleDao {
 	@Override
 	public Role getRoleById(int id) {
 		String sql = "SELECT r.role_id \"r.role_id\", r.name \"r.name\"\n" +
-				"FROM roles r\n" +
+				"FROM kmdm_roles r\n" +
 				"WHERE r.role_id = ?";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -94,7 +94,7 @@ public class RoleDaoImpl implements RoleDao {
 	@Override
 	public Role getRoleByName(String name) {
 		String sql = "SELECT r.role_id \"r.role_id\", r.name \"r.name\"\n" +
-				"FROM roles r WHERE r.name =?";
+				"FROM kmdm_roles r WHERE r.name =?";
 		try {
 			connection = DAOUtilities.getConnection();
 
@@ -130,7 +130,7 @@ public class RoleDaoImpl implements RoleDao {
 	 */
 	@Override
 	public boolean addRole(Role role) {
-		String sql = "INSERT into roles (name) VALUES (?)";
+		String sql = "INSERT into kmdm_roles (name) VALUES (?)";
 		
 		try {
 			connection = DAOUtilities.getConnection();

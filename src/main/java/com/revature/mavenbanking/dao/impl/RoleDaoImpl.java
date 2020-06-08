@@ -13,23 +13,9 @@ import com.revature.mavenbanking.model.Permission;
 
 
 public class RoleDaoImpl implements RoleDao {
-	private Connection connection;
-	private PreparedStatement stmt;
+	private Connection connection = null;
+	private PreparedStatement stmt = null;
 
-	//this doesn't work
-//	public RoleDaoImpl() {
-//		try {
-//			connection = DAOUtilities.getConnection();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			closeResources();
-//		}
-//	}
-//	
-//	protected void finalize() {
-//		closeResources();
-//	}
 	
 	@Override
 	public ArrayList<Role> getAllRoles() {
@@ -40,15 +26,17 @@ public class RoleDaoImpl implements RoleDao {
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			ResultSet rs = stmt.executeQuery();;
 			result = new ArrayList<Role>();
 		
 			while (rs.next()) {
 				Role r = new Role();
 				r.setRoleId(rs.getInt("r.role_id"));
 				r.setRole(rs.getString("r.name"));
+				//r.setEffectivePermissions(new PermissionDaoImpl().getAllPermissions());
 				result.add(r);
 			}
+			rs.close();
 			PermissionDaoImpl pdi = new PermissionDaoImpl();
 			for (Role r : result)
 				r.setEffectivePermissions(pdi.getPermissionsByRoleId(r.getRoleId()));
@@ -138,7 +126,7 @@ public class RoleDaoImpl implements RoleDao {
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, role.getRole());
 			
-			connection.setAutoCommit(false);
+//			connection.setAutoCommit(false);
 			if (stmt.executeUpdate() != 0) {
 				PermissionDaoImpl permDao = new PermissionDaoImpl();
 				Role newRole = this.getRoleByName(role.getRole());
@@ -150,10 +138,10 @@ public class RoleDaoImpl implements RoleDao {
 				for (Permission p : addedPermissions) {
 					permDao.addRolePermission(newRole, p);
 				}
-				connection.setAutoCommit(true);
+//				connection.setAutoCommit(true);
 				return true;
 			} else {
-				connection.setAutoCommit(true);
+//				connection.setAutoCommit(true);
 				return false;
 			}
 		} catch (SQLException e) {
@@ -170,14 +158,65 @@ public class RoleDaoImpl implements RoleDao {
 	 */
 	@Override
 	public boolean updateRole(Role role) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = new String("UPDATE roles SET name = ? WHERE role_id = ?");
+		try {
+			PermissionDaoImpl pdi = new PermissionDaoImpl();
+			ArrayList<Permission> perms = pdi.getPermissionsByRoleId(role.getRoleId());
+				
+			for (Permission p : perms) {
+				if (role.getEffectivePermissions().contains(p))
+					continue;
+				else
+					pdi.removeRolePermission(role, p);
+			}
+			
+			for (Permission p : role.getEffectivePermissions()) {
+				if (perms.contains(p))
+					continue;
+				else
+					pdi.addRolePermission(role, p);
+			}		
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, role.getRole());
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 
 	@Override
 	public boolean deleteRoleById(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		PermissionDaoImpl pdi = new PermissionDaoImpl();
+		Role r = this.getRoleById(id);
+		for (Permission p : r.getEffectivePermissions()) {
+			pdi.removeRolePermission(r, p);
+		}
+		
+		try {
+			String sql = new String("DELETE FROM kmdm_roles WHERE role_id = ?");
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, id);
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
 	}
 	
 	private void closeResources() {

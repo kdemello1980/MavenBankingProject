@@ -13,23 +13,21 @@ import com.revature.mavenbanking.model.Role;
 //import com.revature.mavenbanking.dao.impl.RoleDaoImpl;
 
 public class UserDaoImpl implements UserDao {
-	private Connection connection;
-	private PreparedStatement stmt;
+	private Connection connection = null;
+	private PreparedStatement stmt = null;
 
 	@Override
 	public ArrayList<User> getAllUsers() {
 		String sql = "SELECT user_id, username, email, user_pwd, firstname, lastname, role FROM kmdm_users";
-		ArrayList<User> users = null;
 		
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
-			users = new ArrayList<User>();
-			RoleDaoImpl rdi = new RoleDaoImpl();
+			ArrayList<User> users = new ArrayList<User>();
 
 			while (rs.next()) {
-				System.out.println("found users");
+//				System.out.println("found users");
 				User u = new User();
 				u.setUserId(rs.getInt("user_id"));
 				u.setUsername(rs.getString("username"));
@@ -37,9 +35,12 @@ public class UserDaoImpl implements UserDao {
 				u.setPassword(rs.getString("user_pwd"));
 				u.setFirstName(rs.getString("firstname"));
 				u.setLastName(rs.getString("lastname"));
-				u.setRole(rdi.getRoleById(rs.getInt("role")));
+				u.setRoleId(rs.getInt("role"));
 				users.add(u);
 			}
+			rs.close();
+			for (User u : users)
+				u.setRole(new RoleDaoImpl().getRoleById(u.getRoleId()));
 			return users;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -68,9 +69,9 @@ public class UserDaoImpl implements UserDao {
 				u.setPassword(rs.getString("user_pwd"));
 				u.setFirstName(rs.getString("firstname"));
 				u.setLastName(rs.getString("lastname"));
-				u.setRole(new RoleDaoImpl().getRoleById(rs.getInt("role")));
+				u.setRoleId(rs.getInt("role"));
 			}
-
+			u.setRole(new RoleDaoImpl().getRoleById(u.getRoleId()));
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,7 +89,6 @@ public class UserDaoImpl implements UserDao {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, username);
-			RoleDaoImpl rdi = new RoleDaoImpl();
 			
 			ResultSet rs = stmt.executeQuery();
 			User u = new User();
@@ -99,8 +99,9 @@ public class UserDaoImpl implements UserDao {
 				u.setPassword(rs.getString("user_pwd"));
 				u.setFirstName(rs.getString("firstname"));
 				u.setLastName(rs.getString("lastname"));
-				u.setRole(rdi.getRoleById(rs.getInt("role")));
+				u.setRoleId(rs.getInt("role"));
 			}
+			u.setRole(new RoleDaoImpl().getRoleById(u.getRoleId()));
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();

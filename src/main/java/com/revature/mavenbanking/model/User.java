@@ -10,6 +10,21 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
+	/**
+	 * @return the roleId
+	 */
+	public int getRoleId() {
+		return roleId;
+	}
+
+	/**
+	 * @param roleId the roleId to set
+	 */
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
+	private int roleId;
 	private Role role;
 	
 	public User() {};

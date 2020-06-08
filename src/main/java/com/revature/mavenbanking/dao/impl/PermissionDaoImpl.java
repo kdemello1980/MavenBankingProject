@@ -12,8 +12,8 @@ import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.dao.oracle.DAOUtilities;
 
 public class PermissionDaoImpl implements PermissionDao {
-	private Connection connection;
-	private PreparedStatement stmt;
+	private Connection connection = null;
+	private PreparedStatement stmt = null;
 	
 	@Override
 	public ArrayList<Permission> getAllPermissions() {
@@ -69,13 +69,22 @@ public class PermissionDaoImpl implements PermissionDao {
 		}
 	}
 
+	/*
+	 * this worked yesterday
+	 */
 	@Override
 	public ArrayList<Permission> getPermissionsByRoleId(int id) {
 		ArrayList<Permission> permList = new ArrayList<Permission>();
 
-		String sql = new String("SELECT p.permission_name \"p.permission_name\", p.permission_id \"p.permission_id\", r.role_id \"r.role_id\"\n" + 
-				"FROM kmdm_permissions p, kmdm_roles r, kmdm_role_permissions rp\n" + 
-				"WHERE rp.role_id = r.role_id AND p.permission_id = rp.permission_id AND rp.role_id = ?");
+//		String sql = new String("SELECT p.permission_name \"p.permission_name\", p.permission_id \"p.permission_id\", r.role_id \"r.role_id\"\n" + 
+//				"FROM kmdm_permissions p, kmdm_roles r, kmdm_role_permissions rp\n" + 
+//				"WHERE rp.role_id = r.role_id AND p.permission_id = rp.permission_id AND rp.role_id = ?");
+		
+		String sql = new String("SELECT p.permission_name AS \"p.permission_name\", p.permission_id AS \"p.permission_id\", r.role_id AS \"r.role_id\"\n" + 
+				"FROM kmdm_permissions p\n" + 
+				"JOIN kmdm_role_permissions rp ON rp.permission_id = p.permission_id\n" + 
+				"JOIN kmdm_roles r ON rp.role_id = r.role_id\n" + 
+				"WHERE r.role_id=?");
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -83,7 +92,7 @@ public class PermissionDaoImpl implements PermissionDao {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				System.out.println("made it");
+//				System.out.println("made it");
 				Permission temp = new Permission();
 				temp.setPermissionId(rs.getInt("p.permission_id"));
 				temp.setPermissionName(rs.getString("p.permission_name"));

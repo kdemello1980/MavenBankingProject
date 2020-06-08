@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.revature.mavenbanking.dao.impl.*;
-
 public class DAOUtilities {
 	private static final String CONNECTION_USERNAME = "admin";
 	private static final String CONNECTION_PASSWORD = "12345678";
@@ -20,7 +18,7 @@ public class DAOUtilities {
 				System.out.println("Could not register driver!");
 				e.printStackTrace();
 			}
-			conneciton = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);			System.out.println("Opening new connection...");
+			conneciton = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);			
 			System.out.println("Opened connection...");
 
 		}
@@ -33,7 +31,15 @@ public class DAOUtilities {
 		return conneciton;
 	}
 	
-	public static AccountDaoImpl getAccountDaoImpl() {
-		return new AccountDaoImpl();
+	public static void closeConnection(Connection con) {
+		try {
+			if (con.isClosed())
+				con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		
 	}
+	
 }

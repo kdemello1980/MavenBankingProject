@@ -13,8 +13,8 @@ import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.AccountType;
 
 public class AccountDaoImpl implements AccountDao {
-	private Connection connection;
-	private PreparedStatement stmt;
+	private Connection connection = null;
+	private PreparedStatement stmt = null;
 	
 	@Override
 	public ArrayList<Account> getAllAccounts() {

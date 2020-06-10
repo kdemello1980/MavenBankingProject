@@ -86,6 +86,17 @@ public class UserServlet extends HttpServlet {
 	
 	}
 	
+	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		UserDaoImpl udi = new UserDaoImpl();
+		User u = udi.getUserByUserName(req.getParameter("username"));
+		PrintWriter out = res.getWriter();
+		
+		if (udi.deleteUserByUserName(u.getUsername()))
+			out.println(u.getUsername() + " deleted.");
+		else
+			out.println("Failed to delete " + u.getUsername());
+	}
+	
 	/*
 	 * destroy()
 	 */

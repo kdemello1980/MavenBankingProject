@@ -2,6 +2,7 @@ package com.revature.mavenbanking.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,21 +30,13 @@ public class UserServlet extends HttpServlet {
 	}
 	
 	/*
-	 * service()
-	 */
-//	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-//		
-//	}
-	
-	/*
 	 * (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 * 
 	 * Creates the user.
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
-		
+	
 		PrintWriter out = res.getWriter();
 		UserDaoImpl udi = new UserDaoImpl();
 		
@@ -75,6 +68,22 @@ public class UserServlet extends HttpServlet {
 			else
 				out.println("Failed to update user " + user.getUsername());
 		}
+	}
+	
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		PrintWriter out = res.getWriter();
+		UserDaoImpl udi = new UserDaoImpl();
+		
+		ArrayList<User> users = udi.getAllUsers();
+		
+		out.println("<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>");
+		
+		for (User u : users){
+
+			out.println("<tr><td>" + u.getUsername() +"</td><td>"+u.getFirstName()+"</td><td>"+u.getLastName()+"</td><td>"+u.getEmail()+"/td></tr>");
+		}
+		out.println("</table>");
+	
 	}
 	
 	/*

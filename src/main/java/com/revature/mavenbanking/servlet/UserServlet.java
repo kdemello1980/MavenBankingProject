@@ -86,6 +86,10 @@ public class UserServlet extends HttpServlet {
 	
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doDelete(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		UserDaoImpl udi = new UserDaoImpl();
 		User u = udi.getUserByUserName(req.getParameter("username"));

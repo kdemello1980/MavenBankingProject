@@ -130,8 +130,10 @@ public class UserDaoImpl implements UserDao {
 				u.setPassword(rs.getString("user_pwd"));
 				u.setFirstName(rs.getString("firstname"));
 				u.setLastName(rs.getString("lastname"));
-				u.setRole(rdi.getRoleById(rs.getInt("role")));
+				u.setRoleId(rs.getInt("role"));
+//				u.setRole(rdi.getRoleById(rs.getInt("role")));
 			}
+			u.setRole(rdi.getRoleById(u.getRoleId()));
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -176,18 +178,17 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean addUser(User user) {
-		String sql = "INSERT INTO kmdm_users (user_id, username, user_pwd, email, firstname, lastname, role \n" +
-				"VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) \n" +
+				"VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, user.getUserId());
-			stmt.setString(2, user.getUsername());
-			stmt.setString(3, user.getPassword());
-			stmt.setString(4, user.getEmail());
-			stmt.setString(5, user.getFirstName());
-			stmt.setString(6, user.getLastName());
-			stmt.setInt(7, user.getRole().getRoleId());
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getEmail());
+			stmt.setString(4, user.getFirstName());
+			stmt.setString(5, user.getLastName());
+			stmt.setInt(6, user.getRole().getRoleId());
 			
 			if (stmt.executeUpdate() != 0) 
 				return true;
@@ -203,7 +204,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUser(User user) {
-		String sql = "UPDATE kmdm_users SET username=?, user_pwd=?, email=?, firstnme=?, lastname=?, role=?\n" +
+		String sql = "UPDATE kmdm_users SET username=?, user_pwd=?, email=?, firstname=?, lastname=?, role=?\n" +
 				"WHERE user_id=?";
 		try {
 			connection = DAOUtilities.getConnection();

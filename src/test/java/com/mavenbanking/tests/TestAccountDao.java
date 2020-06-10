@@ -57,7 +57,9 @@ public class TestAccountDao {
 //		pdi.addPermission("new_permission");
 		
 		UserDaoImpl udi = new UserDaoImpl();
-		System.out.println(udi.getAllUsers());
+		ArrayList<User> users = udi.getAllUsers();
+		for (User u : users)
+			System.out.println(u);
 		System.out.println(udi.getUserById(1));
 		System.out.println(udi.getUserByUserName("user2"));
 		

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- Sign Up:
+		 First Nmae:
+		 Last Name: 
+		 email: 
+	 -->
+	 <h1>Sign Up!</h1>
+	 <form method="post" action="/MavenBankingProject/users"> <!-- this will go in the url-patter in web.xml -->
+	 	<input type="hidden" name="action" value="add">
+	 	<table>
+	 		<tbody>
+	 		<tr>
+	 			<td>User Name:</td>
+	 			<td><input type="text" name="userName"></td>
+	 		</tr>
+	 		<tr>
+	 			<td>First Name:</td>
+	 			<td><input type="text" name="firstName"></td>
+	 		</tr>
+	 		<tr>
+	 			<td>Last Name:</td>
+	 			<td><input type="text" name="lastName"></td>
+	 		</tr>
+	 		<tr>
+	 			<td>Email:</td>
+	 			<td><input type="text" name="email"></td>
+	 		</tr>
+	 		<tr>
+	 			<td>Password:</td>
+	 			<td><input type="password" name="password"></td>
+	 		</tr>
+	 		<tr>
+	 			<td>Password:</td>
+	 			<td><input type="password" name="password"></td>
+	 		</tr>
+	 		<tr><td colspan="2" align="center"><input type="submit" value="Create"></td></tr>
+	 	</tbody></table>
+	 </form>
+
+</body></html>

@@ -10,23 +10,8 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	/**
-	 * @return the roleId
-	 */
-	public int getRoleId() {
-		return roleId;
-	}
-
-	/**
-	 * @param roleId the roleId to set
-	 */
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
 	private int roleId;
 	private Role role;
-	
 	public User() {};
 	
 	public User(int userId, String username, String password, String firstName, String lastName, String email,
@@ -137,7 +122,20 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
+	/**
+	 * @return the roleId
+	 */
+	public int getRoleId() {
+		return roleId;
+	}
 
+	/**
+	 * @param roleId the roleId to set
+	 */
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="

@@ -80,7 +80,7 @@ public class UserServlet extends HttpServlet {
 		
 		for (User u : users){
 
-			out.println("<tr><td>" + u.getUsername() +"</td><td>"+u.getFirstName()+"</td><td>"+u.getLastName()+"</td><td>"+u.getEmail()+"/td></tr>");
+			out.println("<tr><td>" + u.getUsername() +"</td><td>"+u.getFirstName()+"</td><td>"+u.getLastName()+"</td><td>"+u.getEmail()+"</td></tr>");
 		}
 		out.println("</table>");
 	

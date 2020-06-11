@@ -75,7 +75,19 @@ public class UserServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		UserDaoImpl udi = new UserDaoImpl();
 		
-		ArrayList<User> users = udi.getAllUsers();
+		ArrayList<User> users = null;
+		String upath = req.getPathInfo();
+		if (upath != null){
+			upath = upath.substring(1);
+//			System.out.println(upath);
+		}
+		
+		if (upath != null) {
+			users = new ArrayList<User>();
+			users.add(udi.getUserByUserName(upath));
+		} else {
+			users = udi.getAllUsers();
+		}
 		
 		out.println("<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>");
 		

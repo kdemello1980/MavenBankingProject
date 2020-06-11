@@ -3,7 +3,6 @@ package com.revature.mavenbanking.dao.impl;
 import com.revature.mavenbanking.dao.AccountTypeDao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,9 +19,9 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 
 	@Override
-	public List<AccountType> getAllAccountTypes() {
+	public ArrayList<AccountType> getAllAccountTypes() {
 		String sql = "SELECT * FROM kmdm_account_types";
-		List<AccountType> list = new ArrayList<AccountType>();
+		ArrayList<AccountType> list = new ArrayList<AccountType>();
 		
 		try {
 			connection = DAOUtilities.getConnection();

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.revature.mavenbanking.dao.impl.UserDaoImpl;
 import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.model.User;
+import com.revature.mavenbanking.service.UserService;
 
 
 //@WebServlet ("/users")
@@ -73,7 +74,7 @@ public class UserServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		PrintWriter out = res.getWriter();
-		UserDaoImpl udi = new UserDaoImpl();
+		UserService us = new UserService();
 		
 		ArrayList<User> users = null;
 		String upath = req.getPathInfo();
@@ -84,9 +85,9 @@ public class UserServlet extends HttpServlet {
 		
 		if (upath != null) {
 			users = new ArrayList<User>();
-			users.add(udi.getUserByUserName(upath));
+			users.add(us.getUserByUserName(upath));
 		} else {
-			users = udi.getAllUsers();
+			users = us.getAllUsers();
 		}
 		
 		out.println("<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>");
@@ -105,11 +106,11 @@ public class UserServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doDelete(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		UserDaoImpl udi = new UserDaoImpl();
-		User u = udi.getUserByUserName(req.getParameter("username"));
+		UserService us = new UserService();
+		User u = us.getUserByUserName(req.getParameter("username"));
 		PrintWriter out = res.getWriter();
 		
-		if (udi.deleteUserByUserName(u.getUsername()))
+		if (us.deleteUserByUserName(u.getUsername()))
 			out.println(u.getUsername() + " deleted.");
 		else
 			out.println("Failed to delete " + u.getUsername());

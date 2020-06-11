@@ -34,7 +34,7 @@ public class UserService {
 		return udi.getUserById(id);
 	}
 	
-	public User getUserByUsername(String name){
+	public User getUserByUserName(String name){
 		return udi.getUserByUserName(name);
 	}
 	

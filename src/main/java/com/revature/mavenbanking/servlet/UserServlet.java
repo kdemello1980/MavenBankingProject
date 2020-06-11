@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.revature.mavenbanking.model.*;
 import com.revature.mavenbanking.dao.impl.UserDaoImpl;
+import com.revature.mavenbanking.model.Role;
+import com.revature.mavenbanking.model.User;
 
 
-@WebServlet ("/users")
+//@WebServlet ("/users")
 public class UserServlet extends HttpServlet {
 
 	/**

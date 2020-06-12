@@ -53,7 +53,7 @@ public class AccountService {
 	 * deposit: adds the specified amount to the current balance and returns the new
 	 * balance on successful database update, null otherwise.
 	 */
-	public BigDecimal deposit(Account account, double amount){
+	public BigDecimal deposit(Account account, double amount) {
 		account.setBalance(account.getBalance().add(BigDecimal.valueOf(amount)));
 		if (adi.updateAccount(account))
 			return account.getBalance();
@@ -102,62 +102,110 @@ public class AccountService {
 	/*
 	 * Account DAO methods.
 	 */
-	public boolean addAccount(Account account){
-		return adi.addAccount(account);
+	public boolean addAccount(Account account) throws Exception {
+		if(adi.addAccount(account))
+			return true;
+		else
+			throw new Exception("Failed to add new account");
 	}
 	
-	public boolean deleteAccountById(int id){
-		return adi.deleteAccountById(id);
+	public boolean deleteAccountById(int id) throws Exception {
+		if (adi.deleteAccountById(id))
+			return true;
+		else
+			throw new Exception("Failed to delete account " + id);
 	}
 	
-	public Account getAccountById(int id){
-		return adi.getAccountById(id);
+	public Account getAccountById(int id) throws Exception {
+		Account a = adi.getAccountById(id);
+		if (a != null)
+			return a;
+		else
+			throw new Exception("Failed to retrieve account " + id);
 	}
 	
-	public ArrayList<Account> getAccountsByStatus(AccountStatus status){
-		return adi.getAccountsByStatus(status);
+	public ArrayList<Account> getAccountsByStatus(AccountStatus status) throws Exception {
+		ArrayList<Account> list = adi.getAccountsByStatus(status);
+		if (list != null)
+			return list;
+		else
+			throw new Exception("Failed to retrieve accounts with status " + status.getStatusName());
 	}
 	
-	public ArrayList<Account> getAccountsByType(AccountType type){
-		return adi.getAccountsByType(type);
+	public ArrayList<Account> getAccountsByType(AccountType type) throws Exception {
+		ArrayList<Account> list = adi.getAccountsByType(type);
+		if (list != null)
+			return list;
+		else
+			throw new Exception("Failed to retrieve accounts of type " + type.getAccountType());
 	}
 	
-	public ArrayList<Account> getAllAccounts(){
-		return adi.getAllAccounts();
+	public ArrayList<Account> getAllAccounts() throws Exception {
+		ArrayList<Account> list = adi.getAllAccounts();
+		if (list != null)
+			return list;
+		else
+			throw new Exception("Failed to retrieve all accounts.");
 	}
 	
-	public boolean updateAccount(Account account){
-		return adi.updateAccount(account);
+	public boolean updateAccount(Account account) throws Exception {
+		if (adi.updateAccount(account))
+			return true;
+		else
+			throw new Exception("Failed to update account " + account.getAccountId());
 	}
 	
-	public boolean addUserToAccount(Account account, User user){
-		return adi.addUserToAccount(account, user);
+	public boolean addUserToAccount(Account account, User user) throws Exception {
+		if (adi.addUserToAccount(account, user))
+			return true;
+		else
+			throw new Exception("Failed to add " + user.getUsername() + " to account " + account.getAccountId());
 	}
 	
-	public boolean deleteUserFromAccount(Account account, User user){
-		return adi.deleteUserFromAccount(account, user);
+	public boolean deleteUserFromAccount(Account account, User user) throws Exception {
+		if (adi.deleteUserFromAccount(account, user))
+			return true;
+		else
+			throw new Exception("Failed to remove user " + user.getUsername() + " from account " + account.getAccountId());
 	}
 	
 	/*
 	 * AccountType DAO methods.
 	 */
-	public boolean addAccountType(AccountType type){
-		return atdi.addAccountType(type);
+	public boolean addAccountType(AccountType type) throws Exception {
+		if (atdi.addAccountType(type))
+			return true;
+		else
+			throw new Exception("Failed to add account type " + type.getAccountType());
 	}
 	
-	public boolean deleteAccountTypeById(int id){
-		return atdi.deleteAccountTypeById(id);
+	public boolean deleteAccountTypeById(int id) throws Exception {
+		if (atdi.deleteAccountTypeById(id))
+			return true;
+		else
+			throw new Exception("Failed to delete account type id: " + id);
 	}
 	
-	public AccountType getAccountTypeById(int id){
-		return atdi.getAccountTypeById(id);
+	public AccountType getAccountTypeById(int id) throws Exception {
+		AccountType type = atdi.getAccountTypeById(id);
+		if (type != null)
+			return type;
+		else
+			throw new Exception("Failed to retrieve account type id: " + id);
 	}
 	
-	public ArrayList<AccountType> getAllAccountTypes(){
-		return atdi.getAllAccountTypes();
+	public ArrayList<AccountType> getAllAccountTypes() throws Exception {
+		ArrayList<AccountType> list = atdi.getAllAccountTypes();
+		if (list != null)
+			return list;
+		else
+			throw new Exception("Failed to retrieve all account types.");
 	}
 	
-	public boolean updateAccountType(AccountType type){
-		return atdi.updateAccountType(type);
+	public boolean updateAccountType(AccountType type) throws Exception {
+		if (atdi.updateAccountType(type))
+			return true;
+		else
+			throw new Exception("Failed to update account type " + type.getAccountType());
 	}
 }

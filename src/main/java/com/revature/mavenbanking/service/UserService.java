@@ -12,7 +12,7 @@ public class UserService {
 	private UserDaoImpl udi = new UserDaoImpl();
 	
 	/*
-	 * Business logic.
+	 * Business logic. These throw exceptions.
 	 */
 	
 	/*
@@ -33,9 +33,7 @@ public class UserService {
 	}
 	
 	/*
-	 * DAO methods.  
-	 * 
-	 * Not sure if I should add exceptions to these.
+	 * DAO methods.   
 	 */
 	public boolean addUser(User user) throws Exception {
 		if (udi.addUser(user)){

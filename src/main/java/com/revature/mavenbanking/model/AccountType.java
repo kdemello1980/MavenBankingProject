@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 public class AccountType {
 	private int typeId;
 	private String type;
-	BigDecimal interestRate;
-	BigDecimal monthlyFee;
+	private BigDecimal interestRate;
+	private BigDecimal monthlyFee;
+	private int compoundMonths;
 	private Permission permission;
 
 
@@ -61,8 +62,6 @@ public class AccountType {
 		this.interestRate = interestRate;
 	}
 
-
-
 	/**
 	 * @return the monthlyFee
 	 */
@@ -77,10 +76,21 @@ public class AccountType {
 		this.monthlyFee = monthlyFee;
 	}
 	
+	public int getCompoundMonths() {
+		return compoundMonths;
+	}
+	
+	public void setCompoundMonths(int compoundMonths) {
+		this.compoundMonths = compoundMonths;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "AccountType [typeId=" + typeId + ", type=" + type + ", interestRate=" + interestRate + ", monthlyFee="
-				+ monthlyFee + ", permission=" + permission + "]";
+				+ monthlyFee + ", compoundMonths=" + compoundMonths + ", permission=" + permission + "]";
 	}
+
 	
 }

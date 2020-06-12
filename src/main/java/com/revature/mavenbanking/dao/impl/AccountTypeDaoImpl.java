@@ -73,14 +73,15 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 	@Override
 	public boolean addAccountType(AccountType type) {
-		String sql = "INSERT INTO kmdm_account_types(type, interest_rate, monthly_fee)\n" +
-				"VALUES (?,?,?)";
+		String sql = "INSERT INTO kmdm_account_types(type, interest_rate, monthly_fee, compound_months)\n" +
+				"VALUES (?,?,?,?)";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, type.getAccountType());
 			stmt.setBigDecimal(2, type.getInterestRate());
 			stmt.setBigDecimal(3, type.getMonthlyFee());
+			stmt.setInt(4, type.getCompoundMonths());
 			
 			if (stmt.executeUpdate() != 0)
 				return true;

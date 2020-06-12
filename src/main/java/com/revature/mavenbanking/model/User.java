@@ -12,6 +12,7 @@ public class User {
 	private String email;
 	private int roleId;
 	private Role role;
+	
 	public User() {};
 	
 	public User(int userId, String username, String password, String firstName, String lastName, String email,

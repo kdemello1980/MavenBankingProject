@@ -40,8 +40,8 @@ DELETE FROM kmdm_account_types;
 ALTER TABLE kmdm_account_types MODIFY type_id GENERATED AS IDENTITY (START WITH 1);
 INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, permission_id) VALUES ('Basic Checking', '0', '5.00', 13);
 INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, permission_id) VALUES ('Premium Checking','0', '0.00', 14);
-INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, permission_id) VALUES ('Basic Savings', '.03', '0.00', 13);
-INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, permission_id) VALUES ('Premium Savings', '.05', '0.00', 14);
+INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, compound_months, permission_id) VALUES ('Basic Savings', '.03', '0.00', 3, 13);
+INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, compound_months permission_id) VALUES ('Premium Savings', '.05', '0.00', 3, 14);
 
 -- account --
 DELETE FROM kmdm_accounts;

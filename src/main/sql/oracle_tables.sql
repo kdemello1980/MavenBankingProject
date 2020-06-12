@@ -27,6 +27,7 @@ CREATE TABLE kmdm_account_types(
     type VARCHAR2(64) UNIQUE,
     interest_rate NUMBER(38,2),
     monthly_fee NUMBER(38,2),
+    compound_months NUMBER,
 	permission_id NUMBER,
     PRIMARY KEY(type_id)
 );

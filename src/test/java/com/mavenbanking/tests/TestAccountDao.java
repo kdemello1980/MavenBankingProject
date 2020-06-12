@@ -63,6 +63,9 @@ public class TestAccountDao {
 		System.out.println(udi.getUserById(1));
 		System.out.println(udi.getUserByUserName("user2"));
 		
+		String foo = "abcdef";
+		System.out.println(foo.substring(0, 2));
+		
 	}
 
 }

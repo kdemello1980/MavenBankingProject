@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ import com.revature.mavenbanking.model.User;
 import com.revature.mavenbanking.service.UserService;
 
 
-//@WebServlet ("/users")
 public class UserServlet extends HttpServlet {
 
 	/**
@@ -27,10 +25,10 @@ public class UserServlet extends HttpServlet {
 	/*
 	 * init()
 	 */
-	public void init() throws ServletException {
-		super.init();
-	}
-	
+//	public void init() throws ServletException {
+//		super.init();
+//	}
+//	
 	/*
 	 * (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -40,7 +38,7 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	
 		PrintWriter out = res.getWriter();
-		UserDaoImpl udi = new UserDaoImpl();
+		UserService udi = new UserService();
 		
 		if (req.getParameter("action").equals("add")){
 			User newUser = new User();
@@ -56,7 +54,7 @@ public class UserServlet extends HttpServlet {
 			
 
 			
-			if (new UserDaoImpl().addUser(newUser)){
+			if (udi.addUser(newUser)){
 				out.println("User " + newUser.getUsername() + " created.");
 			} else {
 				out.println("Failed to add user " + newUser.getUsername());
@@ -119,7 +117,7 @@ public class UserServlet extends HttpServlet {
 	/*
 	 * destroy()
 	 */
-	public void destroy() {
-		super.destroy();
-	}
+//	public void destroy() {
+//		super.destroy();
+//	}
 }

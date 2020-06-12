@@ -22,9 +22,9 @@ public class LoginServlet extends HttpServlet {
 	/*
 	 * init()
 	 */
-	public void init() throws ServletException {
-		super.init();
-	}
+//	public void init() throws ServletException {
+//		super.init();
+//	}
 	
 	/*
 	 * service()
@@ -57,8 +57,8 @@ public class LoginServlet extends HttpServlet {
 	/*
 	 * destroy()
 	 */
-	public void destroy() {
-		super.destroy();
-	}
+//	public void destroy() {
+//		super.destroy();
+//	}
 
 }

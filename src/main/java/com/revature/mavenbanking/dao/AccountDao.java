@@ -10,6 +10,8 @@ public interface AccountDao {
 	public ArrayList<Account> getAccountsByType(AccountType type);
 	public ArrayList<Account> getAccountsByStatus(AccountStatus status);
 	
+	public boolean addUserToAccount(Account account, User user);
+	public boolean deleteUserFromAccount(Account account, User user);
 	public boolean addAccount(Account account);
 	public boolean updateAccount(Account account);
 	public boolean deleteAccountById(int id);

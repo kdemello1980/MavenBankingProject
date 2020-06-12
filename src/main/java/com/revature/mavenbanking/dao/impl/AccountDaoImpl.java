@@ -11,6 +11,7 @@ import com.revature.mavenbanking.dao.oracle.DAOUtilities;
 import com.revature.mavenbanking.model.Account;
 import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.AccountType;
+import com.revature.mavenbanking.model.User;
 
 public class AccountDaoImpl implements AccountDao {
 	private Connection connection = null;
@@ -217,6 +218,56 @@ public class AccountDaoImpl implements AccountDao {
 			closeResources();
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see com.revature.mavenbanking.dao.AccountDao#addUserToAccount(com.revature.mavenbanking.model.Account, com.revature.mavenbanking.model.User)
+	 */
+	@Override
+	public boolean addUserToAccount(Account account, User user) {
+		String sql = "INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (?,?)";
+		try{
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, account.getAccountId());
+			stmt.setInt(2, user.getUserId());
+			
+			if(stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see com.revature.mavenbanking.dao.AccountDao#deleteUserFromAccount(com.revature.mavenbanking.model.Account, com.revature.mavenbanking.model.User)
+	 */
+	@Override
+	public boolean deleteUserFromAccount(Account account, User user) {
+		String sql = "DELETE FROM kmdm_user_accounts WHERE user_id = ? AND account_id = ?";
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, user.getUserId());
+			stmt.setInt(2, account.getAccountId());
+			
+			if (stmt.executeUpdate() != 0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeResources();
+		}
+	}
+
 	// Closing all resources is important, to prevent memory leaks. 
 	// Ideally, you really want to close them in the reverse-order you open them
 	private void closeResources() {

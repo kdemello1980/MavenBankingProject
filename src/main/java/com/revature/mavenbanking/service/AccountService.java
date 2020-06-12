@@ -8,6 +8,7 @@ import com.revature.mavenbanking.dao.impl.AccountTypeDaoImpl;
 import com.revature.mavenbanking.model.Account;
 import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.AccountType;
+import com.revature.mavenbanking.model.User;
 
 public class AccountService {
 
@@ -127,6 +128,14 @@ public class AccountService {
 	
 	public boolean updateAccount(Account account){
 		return adi.updateAccount(account);
+	}
+	
+	public boolean addUserToAccount(Account account, User user){
+		return adi.addUserToAccount(account, user);
+	}
+	
+	public boolean deleteUserFromAccount(Account account, User user){
+		return adi.deleteUserFromAccount(account, user);
 	}
 	
 	/*

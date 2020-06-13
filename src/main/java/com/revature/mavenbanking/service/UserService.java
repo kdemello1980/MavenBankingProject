@@ -33,6 +33,17 @@ public class UserService {
 	}
 	
 	/*
+	 * Login.  Need to flesh this out to use some sort of password hashing.
+	 */
+	public boolean login(String userName, String password) throws Exception {
+		User user = this.getUserByUserName(userName);
+		if (user.getPassword().equals(password))
+			return true;
+		else
+			throw new Exception("Invalid password.");
+	}
+	
+	/*
 	 * DAO methods.   
 	 */
 	public boolean addUser(User user) throws Exception {
@@ -90,7 +101,7 @@ public class UserService {
 		if (user != null)
 			return user;
 		else
-			throw new Exception("Failed to retrieve user " + name);
+			throw new Exception("Invalid username: " + name);
 	}
 	
 	public ArrayList<User> getUsersByRole(Role role) throws Exception {

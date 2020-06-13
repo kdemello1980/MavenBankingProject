@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import com.revature.mavenbanking.dao.impl.RoleDaoImpl;
 import com.revature.mavenbanking.dao.impl.UserDaoImpl;
+import com.revature.mavenbanking.exceptions.AddUserException;
+import com.revature.mavenbanking.exceptions.RetrieveUserException;
+import com.revature.mavenbanking.exceptions.UpdateUserException;
 import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.model.User;
 
@@ -19,9 +22,9 @@ public class UserService {
 	 * upgradeToPremium: verifies user's role is "Standard" and updates the user with the 
 	 * "Premium" role.  Throws an exception if the user is not in the "Standard" role.
 	 */
-	public boolean upgradeToPremium (User user) throws Exception {
+	public boolean upgradeToPremium (User user) throws UpdateUserException {
 		if ( ! user.getRole().getRole().equals("Standard")){
-			throw new Exception("Users of role " + user.getRole().getRole() + " are not eligible to upgrade to Premium");
+			throw new UpdateUserException("Users of role " + user.getRole().getRole() + " are not eligible to upgrade to Premium");
 		} else {
 			Role role = new RoleDaoImpl().getRoleByName("Premium");
 			user.setRole(role);
@@ -46,76 +49,76 @@ public class UserService {
 	/*
 	 * DAO methods.   
 	 */
-	public boolean addUser(User user) throws Exception {
+	public boolean addUser(User user) throws AddUserException {
 		if (udi.addUser(user)){
 			return true;
 		} else {
-			throw new Exception("Failed to add user " + user.getUsername());
+			throw new AddUserException("Failed to add user " + user.getUsername());
 		}
 	}
 	
-	public boolean deleteUserById(int id) throws Exception {
+	public boolean deleteUserById(int id) throws UpdateUserException {
 		if (udi.deleteUserById(id)){
 			return true;
 		} else {
-			throw new Exception("Failed to delet userid" + id);
+			throw new UpdateUserException("Failed to delet userid" + id);
 		}
 	}
 	
-	public boolean deleteUserByUserName(String name) throws Exception {
+	public boolean deleteUserByUserName(String name) throws UpdateUserException {
 		if (udi.deleteUserByUserName(name)){
 			return true;
 		} else {
-			throw new Exception("Failed to delete user " + name);
+			throw new UpdateUserException("Failed to delete user " + name);
 		}
 	}
 	
-	public ArrayList<User> getAllUsers() throws Exception {
+	public ArrayList<User> getAllUsers() throws RetrieveUserException {
 		ArrayList<User> list = udi.getAllUsers();
 		if (list != null){
 			return list;
 		} else {
-			throw new Exception("Failed to get all users.");
+			throw new RetrieveUserException("Failed to get all users.");
 		}
 	}
 	
-	public User getUserByEmail(String email) throws Exception {
+	public User getUserByEmail(String email) throws RetrieveUserException {
 		User user =  udi.getUserByEmail(email);
 		if (user != null){
 			return user;
 		} else {
-			throw new Exception("Failed to retrieve user: " + email);
+			throw new RetrieveUserException("Failed to retrieve user: " + email);
 		}
 	}
 	
-	public User getUserById(int id) throws Exception {
+	public User getUserById(int id) throws RetrieveUserException {
 		User user  = udi.getUserById(id);
 		if (user != null)
 			return user;
 		else
-			throw new Exception("Failed to retrieve user: " + id);
+			throw new RetrieveUserException("Failed to retrieve user: " + id);
 	}
 	
-	public User getUserByUserName(String name) throws Exception {
+	public User getUserByUserName(String name) throws RetrieveUserException {
 		User user = udi.getUserByUserName(name);
 		if (user != null)
 			return user;
 		else
-			throw new Exception("Invalid username: " + name);
+			throw new RetrieveUserException("Invalid username: " + name);
 	}
 	
-	public ArrayList<User> getUsersByRole(Role role) throws Exception {
+	public ArrayList<User> getUsersByRole(Role role) throws RetrieveUserException {
 		ArrayList<User> list = udi.getUsersByRole(role);
 		if (list != null)
 			return list;
 		else
-			throw new Exception("Failed to retrieve users of role: " + role.getRole());
+			throw new RetrieveUserException("Failed to retrieve users of role: " + role.getRole());
 	}
 	
-	public boolean updateUser(User user) throws Exception {
+	public boolean updateUser(User user) throws UpdateUserException {
 		if (udi.updateUser(user))
 			return true;
 		else
-			throw new Exception("Failed to update user " + user.getUsername());
+			throw new UpdateUserException("Failed to update user " + user.getUsername());
 	}
 }

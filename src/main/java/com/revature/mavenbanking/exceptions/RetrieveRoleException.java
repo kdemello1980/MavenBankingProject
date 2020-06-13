@@ -2,6 +2,10 @@ package com.revature.mavenbanking.exceptions;
 
 public class RetrieveRoleException extends Exception {
 
+	public RetrieveRoleException(String string) {
+		super(string);
+	}
+
 	/**
 	 * 
 	 */

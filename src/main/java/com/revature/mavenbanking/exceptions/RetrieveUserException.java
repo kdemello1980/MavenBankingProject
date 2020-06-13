@@ -2,6 +2,10 @@ package com.revature.mavenbanking.exceptions;
 
 public class RetrieveUserException extends Exception {
 
+	public RetrieveUserException(String string) {
+		super(string);
+	}
+
 	/**
 	 * 
 	 */

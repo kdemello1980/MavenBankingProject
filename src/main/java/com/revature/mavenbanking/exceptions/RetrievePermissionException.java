@@ -2,6 +2,10 @@ package com.revature.mavenbanking.exceptions;
 
 public class RetrievePermissionException extends Exception {
 
+	public RetrievePermissionException(String string) {
+		super(string);
+	}
+
 	/**
 	 * 
 	 */

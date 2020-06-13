@@ -1,6 +1,10 @@
 package com.revature.mavenbanking.exceptions;
 
-public class RectrieveAccountException extends Exception {
+public class RetrieveAccountException extends Exception {
+
+	public RetrieveAccountException(String string) {
+		super(string);
+	}
 
 	/**
 	 * 

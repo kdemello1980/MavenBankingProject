@@ -2,6 +2,10 @@ package com.revature.mavenbanking.exceptions;
 
 public class AddAccountException extends Exception {
 
+	public AddAccountException(String string) {
+		super(string);
+	}
+
 	/**
 	 * 
 	 */

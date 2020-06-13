@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="index.js"></script>
+    <form name="home" action="/index.html">
+        <input type="submit" value="Home"></submit>
+    </form>
+</head>
+
+<body onload="create_page()">
+    <!--The title is changed for the appropriate form. -->
+    <h1 id="title">Hello world</h1>
+
+    <!--This empty form is replaced based on navigation and permissions -->
+    <form id="content"></form>
+
+    <script>
+        function create_page(){
+            let user = sessionStorage.getItem("user");
+            console.log(user || user ==="");
+            if (!user || user === ""){
+                form = document.getElementById("content");
+                title = document.getElementById("title");
+                login_form(form, title);
+            } 
+            else {
+                form = document.getElementById("content");
+                title = document.getElementById("title");
+                home_form(form, title);
+            }
+        }
+
+        // sessionStorage.clear();
+    </script>
+</body>
+
+</html>

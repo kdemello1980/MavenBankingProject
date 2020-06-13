@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 import com.revature.mavenbanking.dao.oracle.*;
 import com.revature.mavenbanking.model.AccountType;
+import com.revature.mavenbanking.model.Permission;
 
 public class AccountTypeDaoImpl implements AccountTypeDao {
 	Connection connection = null;
@@ -32,9 +33,16 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 				AccountType temp = new AccountType();
 				temp.setAccountType(rs.getString("type"));
 				temp.setTypeId(rs.getInt("type_id"));
+				temp.setPermissionId(rs.getInt("permission_id"));
 				list.add(temp);
 			}
 			rs.close();
+			
+			PermissionDaoImpl pdi = new PermissionDaoImpl();
+			for (AccountType t : list){
+				Permission p = pdi.getPermissionByID(t.getPermissionId());
+				t.setPermission(p);
+			}
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,12 +54,13 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 
 	@Override
 	public AccountType getAccountTypeById(int id) {
-		String sql = "SELECT type, interest_rate, monthly_fee FROM kmdm_account_types WHERE type_id=?";
+		String sql = "SELECT * FROM kmdm_account_types WHERE type_id=?";
 		AccountType temp = null;
 
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, id);
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -60,8 +69,12 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 				temp.setTypeId(id);
 				temp.setInterestRate(rs.getBigDecimal("interest_rate"));
 				temp.setMonthlyFee(rs.getBigDecimal("monthly_fee"));
+				temp.setCompoundMonths(rs.getInt("compound_months"));
+				temp.setPermissionId(rs.getInt("permission_id"));
 			}
 			rs.close();
+			PermissionDaoImpl pdi = new PermissionDaoImpl();
+			temp.setPermission(pdi.getPermissionByID(temp.getPermissionId()));
 			return temp;
 		} catch (SQLException e) {
 			e.printStackTrace();

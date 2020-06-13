@@ -1,15 +1,10 @@
 package com.mavenbanking.tests;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.mavenbanking.dao.impl.*;
-import com.revature.mavenbanking.model.*;
-import com.revature.mavenbanking.dao.oracle.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import com.revature.mavenbanking.model.*; 
 public class TestAccountDao {
 
 	public static void main(String[] args) {
@@ -66,6 +61,13 @@ public class TestAccountDao {
 		String foo = "abcdef";
 		System.out.println(foo.substring(0, 2));
 		
+		ObjectMapper obj = new ObjectMapper();
+		try {
+			System.out.println(obj.writeValueAsString(list));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			System.out.println("WTF?");
+		}
 	}
 
 }

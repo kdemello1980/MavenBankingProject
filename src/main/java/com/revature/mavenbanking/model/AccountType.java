@@ -7,6 +7,31 @@ public class AccountType {
 	private BigDecimal interestRate;
 	private BigDecimal monthlyFee;
 	private int compoundMonths;
+	private int permissionId;
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	/**
+	 * @return the permissionId
+	 */
+	public int getPermissionId() {
+		return permissionId;
+	}
+	/**
+	 * @param permissionId the permissionId to set
+	 */
+	public void setPermissionId(int permissionId) {
+		this.permissionId = permissionId;
+	}
 	private Permission permission;
 
 

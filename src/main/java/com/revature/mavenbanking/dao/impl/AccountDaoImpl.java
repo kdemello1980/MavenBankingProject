@@ -21,7 +21,9 @@ public class AccountDaoImpl implements AccountDao {
 	public ArrayList<Account> getAllAccounts() {
 		ArrayList<Account> accountList = new ArrayList<Account>();
 
-		String sql = new String("SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", s.status \"s.status\", t.type_id \"t.type_id\", t.type \"t.type\"\n" + 
+		String sql = new String("SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", "+
+				"s.status_id \"s.status_id\", s.status \"s.status\","+ 
+				"t.type_id \"t.type_id\", t.type \"t.type\"" + 
 				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t\n" + 
 				"WHERE a.status = s.status_id AND a.type = t.type_id");
 //		String sql = "SELECT * FROM account_types";
@@ -39,7 +41,7 @@ public class AccountDaoImpl implements AccountDao {
 				// Grab the t.id and t.type to get the account type.
 				AccountType type = new AccountType();
 				type.setTypeId(rs.getInt("t.type_id"));
-				type.setAccountType(rs.getString("t.type"));
+//				type.setAccountType(rs.getString("t.type"));
 				
 				// I'm not sure how to cast the MONEY type to double here, if it's necessary or even possible.
 				// Using BigDecimal with the NUMERIC data type is recommended here.
@@ -47,6 +49,11 @@ public class AccountDaoImpl implements AccountDao {
 				accountList.add(account);
 			}
 			rs.close();
+			
+			AccountTypeDaoImpl dao = new AccountTypeDaoImpl();
+			for (Account a : accountList){
+				a.setType(dao.getAccountTypeById(a.getType().getTypeId()));
+			}
 			return accountList;
 		} catch (SQLException e) {
 			e.printStackTrace();

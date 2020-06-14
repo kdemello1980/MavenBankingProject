@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.revature.mavenbanking.dao.impl.UserDaoImpl;
+import com.revature.mavenbanking.exceptions.RetrieveUserException;
 import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.model.User;
 import com.revature.mavenbanking.service.UserService;
@@ -81,21 +81,25 @@ public class UserServlet extends HttpServlet {
 //			System.out.println(upath);
 		}
 		
-		if (upath != null) {
-			users = new ArrayList<User>();
-			users.add(us.getUserByUserName(upath));
-		} else {
-			users = us.getAllUsers();
+		try {
+			if (upath != null) {
+				users = new ArrayList<User>();
+				users.add(us.getUserByUserName(upath));
+			} else {
+				users = us.getAllUsers();
+			}
+			
+			out.println("<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>");
+			
+			for (User u : users){
+	
+				out.println("<tr><td>" + u.getUsername() +"</td><td>"+u.getFirstName()+"</td><td>"
+						+u.getLastName()+"</td><td>"+u.getEmail()+"</td></tr>");
+			}
+			out.println("</table>");
+		} catch (RetrieveUserException e){
+			// need to do something here.  Maybe send the message string to the client as json.
 		}
-		
-		out.println("<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>");
-		
-		for (User u : users){
-
-			out.println("<tr><td>" + u.getUsername() +"</td><td>"+u.getFirstName()+"</td><td>"
-					+u.getLastName()+"</td><td>"+u.getEmail()+"</td></tr>");
-		}
-		out.println("</table>");
 	
 	}
 	

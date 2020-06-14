@@ -38,12 +38,15 @@ public class UserService {
 	/*
 	 * Login.  Need to flesh this out to use some sort of password hashing.
 	 */
-	public boolean login(String userName, String password) throws Exception {
+	public User login(String userName, String password) throws RetrieveUserException {
 		User user = this.getUserByUserName(userName);
-		if (user.getPassword().equals(password))
-			return true;
-		else
-			throw new Exception("Invalid password.");
+		if (user.getPassword().equals(password)){
+			user.setPassword("ah ah ah. no peeking");
+			return user;
+		}
+		else{
+			throw new RetrieveUserException("Login failed.");
+		}
 	}
 	
 	/*

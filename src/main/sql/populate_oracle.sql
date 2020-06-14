@@ -33,22 +33,22 @@ INSERT INTO kmdm_permissions (permission_name) VALUES ('s_can_upgrade_status_to_
 INSERT INTO kmdm_permissions (permission_name) VALUES ('ea_can_add_new_user'); -- employee, admin 11
 INSERT INTO kmdm_permissions (permission_name) VALUES ('a_can_add_new_employee'); -- admin 12
 INSERT INTO kmdm_permissions (permission_name) VALUES ('sp_account_types_standard'); -- standard, premium 13
-INSERT INTO kmdm_permissions (permission_name) VALUES ('sp_account_types_premium'); -- premium, 14
+INSERT INTO kmdm_permissions (permission_name) VALUES ('p_account_types_premium'); -- premium, 14
 
 -- account_types --
 DELETE FROM kmdm_account_types;
 ALTER TABLE kmdm_account_types MODIFY type_id GENERATED AS IDENTITY (START WITH 1);
-INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, permission_id) VALUES ('Basic Checking', '0', '5.00', 13);
-INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, permission_id) VALUES ('Premium Checking','0', '0.00', 14);
-INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, compound_months, permission_id) VALUES ('Basic Savings', '.03', '0.00', 3, 13);
-INSERT INTO kmdm_account_types (type, interest_rate, monthly_fee, compound_months, permission_id) VALUES ('Premium Savings', '.05', '0.00', 3, 14);
+INSERT INTO kmdm_account_types (type_name, interest_rate, monthly_fee, permission_id) VALUES ('Basic Checking', '0', '5.00', 13);
+INSERT INTO kmdm_account_types (type_name, interest_rate, monthly_fee, permission_id) VALUES ('Premium Checking','0', '0.00', 14);
+INSERT INTO kmdm_account_types (type_name, interest_rate, monthly_fee, compound_months, permission_id) VALUES ('Basic Savings', '.03', '0.00', 3, 13);
+INSERT INTO kmdm_account_types (type_name, interest_rate, monthly_fee, compound_months, permission_id) VALUES ('Premium Savings', '.05', '0.00', 3, 14);
 
 -- account --
 DELETE FROM kmdm_accounts;
 ALTER TABLE kmdm_accounts MODIFY account_id GENERATED AS IDENTITY (START WITH 10000 INCREMENT BY 28);
-INSERT INTO kmdm_accounts (balance, status, type) VALUES ('5.00', '1', '1');
-INSERT INTO kmdm_accounts (balance, status, type) VALUES ('1000.00','2','2');
-INSERT INTO kmdm_accounts (balance, status, type) VALUES ('6000.00', '1', '3');
+INSERT INTO kmdm_accounts (balance, status, type_id) VALUES ('5.00', '1', '1');
+INSERT INTO kmdm_accounts (balance, status, type_id) VALUES ('1000.00','2','2');
+INSERT INTO kmdm_accounts (balance, status, type_id) VALUES ('6000.00', '1', '3');
 
 
 -- role_permissions --
@@ -83,6 +83,19 @@ INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 4);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 5);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 12);
 
+-- users
+DELETE FROM kmdm_users;
+ALTER TABLE kmdm_users MODIFY user_id GENERATED AS IDENTITY (START WITH 1 INCREMENT BY 1);
+INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('admin', 'admin', 'admin@bank.com', 'Adam', 'Admin', 4);
+INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('employee', 'employee', 'employee@bank.com', 'Eve', 'Employee', 3);
+INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('premium', 'premium', 'premium@bank.com', 'Jeffrey', 'Lebowski', 2);
+INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('standard', 'standard', 'standard@bank.com', 'Jeff', 'Lebowski', 1);
+
+-- user_accounts
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10000, 4);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10000, 1);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10028, 4);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10056, 3);
 
 
 SELECT * FROM kmdm_roles;

@@ -170,6 +170,15 @@ public class AccountService {
 			throw new UpdateAccountException("Failed to remove user " + user.getUsername() + " from account " + account.getAccountId());
 	}
 	
+	public ArrayList<Account> getAccountsByUser(User user) throws RetrieveAccountException {
+		ArrayList<Account> list = adi.getAccountsByUser(user);
+		if (list != null)
+			return list;
+		else
+			throw new RetrieveAccountException("Failed to retrieve accounts for user: " + user.getUsername());
+	}
+	
+	
 	/*
 	 * AccountType DAO methods.
 	 */
@@ -209,4 +218,5 @@ public class AccountService {
 		else
 			throw new UpdateAccountException("Failed to update account type " + type.getAccountType());
 	}
+
 }

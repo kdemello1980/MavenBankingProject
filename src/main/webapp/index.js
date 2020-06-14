@@ -1,37 +1,15 @@
-// comment
-// console.log('hello world');
 
-// // declare variable
-// // var is old way
-// let name;
-// name = "ken"; // String literal
-// let age = 30; // number
-// let isApproved = true; // boolean (true/false lowercase)
-// let firstName; // undefined
-// let foo = undefined;
+function submit_form(form, endpoint){
+	const formData = new FormData(form);
+	let request = new XHttpRequest();
+	request.open("POST", endpoint);
+	request.send(formData);
+}
 
-// age = 'thirty';  // Change type of variable from number to string
-
-// // typeof - returns the type of variable
-
-// // console.log(name);
-
-// function greet(firstName, LastName){
-//     console.log("Hello " + firstName + " " + LastName); //can use template listerals to format strings
-// }
-
-// function square(number){
-//     return number * number;
-// }
-
-// let four = square(2);
-// console.log(square(3));
-
-// load the login page 
 function login_form(form, title){
     // Change the title.
     // document.getElementsByName("title").innerHtml = "Please login";
-    title.innerText = "Please Login";
+    title.innerText = "Welcome to MavenBank! Please Login Below:";
 
     let table = form.appendChild(document.createElement("table"));
     let row = table.insertRow();
@@ -62,8 +40,9 @@ function login_form(form, title){
     cell1.colSpan = 2;
     cell1.align = "center";
     element = document.createElement("input");
-    element.type = "submit";
+    element.type = "button";
     element.value = "Login";
+//    element.onclick = submit_form(form, "/MavenBankingProject/login");
     cell1.appendChild(element);
 
 //    document.createTextNode(table);
@@ -79,7 +58,7 @@ function login_form(form, title){
 // Build the home page.
 
 function home_form(form, title){
-    title.innerText = 'Welcome to MavenBank';
+    title.innerText = 'MavenBank Home';
 
     // Get the list of accounts for the user.
 

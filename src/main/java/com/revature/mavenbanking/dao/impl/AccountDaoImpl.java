@@ -1,6 +1,7 @@
 package com.revature.mavenbanking.dao.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,7 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public ArrayList<Account> getAllAccounts() {
 		ArrayList<Account> accountList = new ArrayList<Account>();
+//		ArrayList<ArrayList<Account>> foo = new ArrayList<ArrayList<Account>>();
 
 		String sql = new String("SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", "+
 				"s.status_id \"s.status_id\", s.status \"s.status\","+ 
@@ -294,4 +296,90 @@ public class AccountDaoImpl implements AccountDao {
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.revature.mavenbanking.dao.AccountDao#getAccountsByUser(com.revature.mavenbanking.model.User)
+	 * 
+	 * 
+	 * This one's a doozy.
+	 */
+	@Override
+	public ArrayList<Account> getAccountsByUser(User user) {
+		ArrayList<Account> accts = null;
+		String sql ="SELECT A.account_id \"A.account_id\", A.type_id \"A.type_id\", A.status \"A.status\"," +
+				"A.balance \"A.balance\", T.type_id \"T.type_id\", T.type_name \"T.type_name\", S.status_id " +
+						"\"S.status_id\", S.status \"S.status\", U.user_id \"U.User_id\\n" +
+					"FROM kmdm_accounts A\n" +
+						"INNER JOIN kmdm_account_types T ON A.type_id = T.type_id\n" +
+							"INNER JOIN kmdm_account_status S ON A.status = S.status_id\n" +
+								"INNER JOIN kmdm_user_accounts U ON u.account_id = A.account_id\n" +
+									"WHERE U.user_id = ? ORDER BY A.account_id";
+		
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, user.getUserId());
+			HashMap<Integer, Integer> account_status = new HashMap<Integer, Integer>();
+			HashMap<Integer, Integer> account_type = new HashMap<Integer, Integer>();
+			accts = new ArrayList<Account>();
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()){
+				Account a = new Account();
+				a.setAccountId(rs.getInt("A.account_id"));
+				a.setBalance(rs.getBigDecimal("A.balance"));
+				account_status.put(Integer.valueOf(rs.getInt("A.status")), Integer.valueOf(rs.getInt("S.status_id")));
+				account_type.put(Integer.valueOf(rs.getInt("A.type_id")), Integer.valueOf(rs.getInt("T.type_id")));
+				accts.add(a);
+			}
+			rs.close();
+			
+			// Add the status objects.
+			AccountStatusDaoImpl sdi = new AccountStatusDaoImpl();
+			for (Account a : accts){
+				a.setStatus(sdi.getAccountStatusById(account_status.get(Integer.valueOf(a.getAccountId())).intValue()));
+			}
+			
+			// Add the type objects.
+			AccountTypeDaoImpl tdi = new AccountTypeDaoImpl();
+			for (Account a : accts){
+				a.setType(tdi.getAccountTypeById(account_type.get(Integer.valueOf(a.getAccountId())).intValue()));
+			}
+			return accts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}	
+	}
+
+	
+	/* 
+	 *    /\ /\  
+	 *    |   |  
+	 *    That's not a doozy.  THIS is a doozy.
+	 *                         |   |
+	 *                        \/  \/
+	 */
+	@Override
+	public HashMap<User, ArrayList<Account>> getAllUserAccounts() {
+		ArrayList<User> users = new UserDaoImpl().getAllUsers();
+		if (users != null){
+			HashMap<User, ArrayList<Account>> userAccounts = new HashMap<User, ArrayList<Account>>();
+			for (User u: users){
+				userAccounts.put(u, this.getAccountsByUser(u));
+			}
+			return userAccounts;
+		} else {
+			return null;
+		}
+	}
+	
+	/*
+	 * /\ /\
+	 *  | |
+	 * Maybe not.
+	 */
 }

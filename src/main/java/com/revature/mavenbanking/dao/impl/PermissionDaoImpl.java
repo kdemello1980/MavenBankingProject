@@ -177,7 +177,7 @@ public class PermissionDaoImpl implements PermissionDao {
 	 */
 	@Override
 	public Permission getPermissionByPermissionName(String name) {
-		String sql = "SELECT * FROM kmdm_permission WHERE permission_name = ?";
+		String sql = "SELECT * FROM kmdm_permissions WHERE permission_name = ?";
 		
 		try {
 			Permission perm = new Permission();

@@ -31,22 +31,35 @@ public class AccountServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 		HashMap<User, ArrayList<Account>> accts = null;
 		Permission adminPermission = null;
+		boolean isAdmin = false;
 
 		if (user == null){
 			res.setStatus(401);
 			res.setHeader("message", "The incoming token has expired.");
 			req.getRequestDispatcher("login.html").include(req, res);
 		}
+		System.out.println(user);
 		
 		try {
 			adminPermission = new PermissionService().getPermissionByPermissionName("ea_can_view_all_customer_info");
+//			System.out.println(adminPermission);
+//			System.out.println(user.getRole().getEffectivePermissions().contains(adminPermission));
+			for (Permission p : user.getRole().getEffectivePermissions()){
+//				System.out.println(p);
+//				System.out.println(p.getPermissionName().equals(adminPermission.getPermissionName()));
+				if (p.getPermissionName().equals(adminPermission.getPermissionName())) {
+					isAdmin = true;
+					break;
+				}
+			}
 		} catch (RetrievePermissionException e) {
 			e.printStackTrace();
 			res.sendError(500, e.getMessage());
 		}
+		System.out.println(isAdmin);
 		// Get user account info from the database.
 		try {
-			if (user.getRole().getEffectivePermissions().contains(adminPermission)){
+			if (isAdmin){
 				accts = new AccountService().getAllUserAccounts();
 			} else {
 				accts = new HashMap<User, ArrayList<Account>>();

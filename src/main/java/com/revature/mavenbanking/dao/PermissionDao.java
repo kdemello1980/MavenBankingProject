@@ -10,6 +10,7 @@ public interface PermissionDao {
 	public ArrayList<Permission> getAllPermissions();
 	public Permission getPermissionByID(int id);
 	public ArrayList<Permission> getPermissionsByRoleId(int id);
+	public Permission getPermissionByPermissionName(String name);
 	
 	public boolean addPermission(String name);
 	

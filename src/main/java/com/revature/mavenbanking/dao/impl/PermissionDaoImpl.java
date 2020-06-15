@@ -172,6 +172,33 @@ public class PermissionDaoImpl implements PermissionDao {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.revature.mavenbanking.dao.PermissionDao#getPermissionByPermissionName(java.lang.String)
+	 */
+	@Override
+	public Permission getPermissionByPermissionName(String name) {
+		String sql = "SELECT * FROM kmdm_permission WHERE permission_name = ?";
+		
+		try {
+			Permission perm = new Permission();
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, name);
+			
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()){
+				perm.setPermissionId(rs.getInt("permission_id"));
+				perm.setPermissionName(rs.getString("permission_name"));
+			}
+			return perm;
+		} catch (SQLException e){
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}
+	}
+
 	// Closing all resources is important, to prevent memory leaks. 
 	// Ideally, you really want to close them in the reverse-order you open them
 	private void closeResources() {

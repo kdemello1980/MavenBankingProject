@@ -65,7 +65,7 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				temp = new AccountType();
-				temp.setAccountType(rs.getString("type"));
+				temp.setAccountType(rs.getString("type_name"));
 				temp.setTypeId(id);
 				temp.setInterestRate(rs.getBigDecimal("interest_rate"));
 				temp.setMonthlyFee(rs.getBigDecimal("monthly_fee"));

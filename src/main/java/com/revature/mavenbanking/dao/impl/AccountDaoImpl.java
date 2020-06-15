@@ -25,9 +25,9 @@ public class AccountDaoImpl implements AccountDao {
 
 		String sql = new String("SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", "+
 				"s.status_id \"s.status_id\", s.status \"s.status\","+ 
-				"t.type_id \"t.type_id\", t.type \"t.type\"" + 
+				"t.type_id \"t.type_id\", t.type_name \"t.type_name\"" + 
 				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t\n" + 
-				"WHERE a.status = s.status_id AND a.type = t.type_id");
+				"WHERE a.status = s.status_id AND a.type_id = t.type_id");
 //		String sql = "SELECT * FROM account_types";
 		try {
 			connection = DAOUtilities.getConnection();
@@ -309,7 +309,7 @@ public class AccountDaoImpl implements AccountDao {
 		ArrayList<Account> accts = null;
 		String sql ="SELECT A.account_id \"A.account_id\", A.type_id \"A.type_id\", A.status \"A.status\"," +
 				"A.balance \"A.balance\", T.type_id \"T.type_id\", T.type_name \"T.type_name\", S.status_id " +
-						"\"S.status_id\", S.status \"S.status\", U.user_id \"U.User_id\\n" +
+						"\"S.status_id\", S.status \"S.status\", U.user_id \"U.User_id\"\n" +
 					"FROM kmdm_accounts A\n" +
 						"INNER JOIN kmdm_account_types T ON A.type_id = T.type_id\n" +
 							"INNER JOIN kmdm_account_status S ON A.status = S.status_id\n" +
@@ -320,8 +320,8 @@ public class AccountDaoImpl implements AccountDao {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, user.getUserId());
-			HashMap<Integer, Integer> account_status = new HashMap<Integer, Integer>();
-			HashMap<Integer, Integer> account_type = new HashMap<Integer, Integer>();
+			HashMap<Account, Integer> account_status = new HashMap<Account, Integer>();
+			HashMap<Account, Integer> account_type = new HashMap<Account, Integer>();
 			accts = new ArrayList<Account>();
 
 			ResultSet rs = stmt.executeQuery();
@@ -329,8 +329,10 @@ public class AccountDaoImpl implements AccountDao {
 				Account a = new Account();
 				a.setAccountId(rs.getInt("A.account_id"));
 				a.setBalance(rs.getBigDecimal("A.balance"));
-				account_status.put(Integer.valueOf(rs.getInt("A.status")), Integer.valueOf(rs.getInt("S.status_id")));
-				account_type.put(Integer.valueOf(rs.getInt("A.type_id")), Integer.valueOf(rs.getInt("T.type_id")));
+				
+				account_status.put(a, Integer.valueOf(rs.getInt("A.status")));
+				account_type.put(a, Integer.valueOf(rs.getInt("A.type_id")));
+
 				accts.add(a);
 			}
 			rs.close();
@@ -338,13 +340,15 @@ public class AccountDaoImpl implements AccountDao {
 			// Add the status objects.
 			AccountStatusDaoImpl sdi = new AccountStatusDaoImpl();
 			for (Account a : accts){
-				a.setStatus(sdi.getAccountStatusById(account_status.get(Integer.valueOf(a.getAccountId())).intValue()));
+				int statusId = account_status.get(a).intValue();
+				a.setStatus(sdi.getAccountStatusById(statusId));
 			}
 			
 			// Add the type objects.
 			AccountTypeDaoImpl tdi = new AccountTypeDaoImpl();
 			for (Account a : accts){
-				a.setType(tdi.getAccountTypeById(account_type.get(Integer.valueOf(a.getAccountId())).intValue()));
+				int typeId = account_type.get(a).intValue();
+				a.setType(tdi.getAccountTypeById(typeId));
 			}
 			return accts;
 		} catch (SQLException e) {
@@ -380,6 +384,6 @@ public class AccountDaoImpl implements AccountDao {
 	/*
 	 * /\ /\
 	 *  | |
-	 * Maybe not.
+	 * Maybe not.  Data structures ROCK!!!
 	 */
 }

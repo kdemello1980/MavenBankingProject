@@ -3,6 +3,7 @@ package com.revature.mavenbanking.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,9 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.mavenbanking.exceptions.RetrieveAccountException;
+import com.revature.mavenbanking.exceptions.RetrievePermissionException;
 import com.revature.mavenbanking.model.Account;
+import com.revature.mavenbanking.model.Permission;
 import com.revature.mavenbanking.model.User;
 import com.revature.mavenbanking.service.AccountService;
+import com.revature.mavenbanking.service.PermissionService;
+import com.revature.mavenbanking.servlet.ServletUtilities;
 
 public class AccountServlet extends HttpServlet {
 
@@ -21,10 +26,11 @@ public class AccountServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -4978087815778481379L;
 	
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		User user = (User)req.getSession().getAttribute("user");
 		PrintWriter out = res.getWriter();
-		ArrayList<Account> accounts = null;
+		HashMap<User, ArrayList<Account>> accts = null;
+		Permission adminPermission = null;
 
 		if (user == null){
 			res.setStatus(401);
@@ -32,62 +38,48 @@ public class AccountServlet extends HttpServlet {
 			req.getRequestDispatcher("login.html").include(req, res);
 		}
 		
-		String title = "MavenBank Home";
-		out.println("<!doctype html><html lang=\"en\"><head><title>" + title + "</title></head><body>");
-		out.println("<h2>Welcome " + user.getFirstName() + " " + user.getLastName() +"</h2>");
-		out.println("<form id=\"accounts_form\"><table>");
+		try {
+			adminPermission = new PermissionService().getPermissionByPermissionName("ea_can_view_all_customer_info");
+		} catch (RetrievePermissionException e) {
+			e.printStackTrace();
+			res.sendError(500, e.getMessage());
+		}
+		// Get user account info from the database.
+		try {
+			if (user.getRole().getEffectivePermissions().contains(adminPermission)){
+				accts = new AccountService().getAllUserAccounts();
+			} else {
+				accts = new HashMap<User, ArrayList<Account>>();
+				accts.put(user, new AccountService().getAccountsByUser(user));
+			}
+		} catch (RetrieveAccountException e){
+			e.printStackTrace();
+			res.sendError(500, e.getMessage());
+		}
+
+		// Print the page.
+		out.println(ServletUtilities.openDocument("MavenBank Accounts", user.getFirstName() + " " + user.getLastName()));
+		out.println(ServletUtilities.openTable("accounts"));
 		
-		if (user.getRole().getEffectivePermissions().contains("ea_can_view_all_customer_info")){
-			try {
-				accounts = new AccountService().getAllAccounts();
-
-			} catch (RetrieveAccountException e) {
-				e.printStackTrace();
-				res.setStatus(501);
-				res.setHeader("message", "Error retrieving accounts for all users.");
-				req.getRequestDispatcher("error.html").forward(req, res);
-			}
-		} else {
-			try {
-				accounts = new AccountService().getAccountsByUser(user);
-			} catch (RetrieveAccountException e){
-				e.printStackTrace();
-				res.setStatus(501);
-				res.setHeader("message", "Error retrieving accounts for " + user.getFirstName() + " " + user.getLastName());
-				req.getRequestDispatcher("error.html").forward(req, res);
+		for (User u : accts.keySet()){
+			for (Account a : accts.get(u)){
+				out.println(accountRow(a, u));
 			}
 		}
-		for (Account account : accounts){
-			out.println("<tr>");
-			// Link to account detail page.
-			out.println("<td>");
-			out.println("<a href=\"MavenBankingProject/accounts/" + account.getAccountId() + "\">" + 
-			account.getAccountId()+ "</a>");
-			out.println("</td>");
-			
-			// Account type. 
-			out.println("<td>");
-			out.println(account.getType().getType());
-			out.println("</td>");
-			
-			// Account status.
-			out.println("<td>");
-			out.println(account.getStatus().getStatusName());
-			out.println("</td>");
-			
-			// First Name + Last Name
-			out.println("<td>");
-			out.println(user.getFirstName() + " " + user.getLastName());
-			out.println("</td>");
-			
-			// Balance.
-			out.println("<td>");
-//			out.println();
-			out.println("</td>");
-			out.println("</tr>");
-		}
-		out.println("</table></form></body></html>");
-
+		out.println(ServletUtilities.closeTable() + ServletUtilities.closeDocument());
+	}
+	
+	private static String accountRow(Account a, User u){
+		String content = ServletUtilities.tr(
+				ServletUtilities.td(
+						ServletUtilities.anchor("/MavenBanking/account/" + a.getAccountId(), String.valueOf(a.getAccountId()))
+						) +
+				ServletUtilities.td(a.getType().getAccountType()) +
+				ServletUtilities.td(u.getLastName() + ", " + u.getFirstName()) +
+				ServletUtilities.td(a.getStatus().getStatusName()) +
+				ServletUtilities.td(a.getBalance().toString())
+				);
+		return content;
 	}
 
 }

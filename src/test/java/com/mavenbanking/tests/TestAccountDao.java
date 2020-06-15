@@ -1,8 +1,8 @@
 package com.mavenbanking.tests;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.revature.mavenbanking.dao.impl.*;
 import com.revature.mavenbanking.model.*; 
 public class TestAccountDao {
@@ -20,6 +20,7 @@ public class TestAccountDao {
 //			e.printStackTrace();
 //			return;
 //		}
+
 		
 		AccountDaoImpl dao = new AccountDaoImpl();
 		ArrayList<Account> list = dao.getAllAccounts();
@@ -55,19 +56,15 @@ public class TestAccountDao {
 		ArrayList<User> users = udi.getAllUsers();
 		for (User u : users)
 			System.out.println(u);
-		System.out.println(udi.getUserById(1));
-		System.out.println(udi.getUserByUserName("user2"));
+		System.out.println(udi.getUserById(1).getRole().getEffectivePermissions().contains("ea_can_view_all_customer_info"));
+//		System.out.print(dao.getAllUserAccounts());
+
+//		System.out.println(udi.getUserByUserName("user2"));
 		
-		String foo = "abcdef";
-		System.out.println(foo.substring(0, 2));
+//		String foo = "abcdef";
+//		System.out.println(foo.substring(0, 2));
 		
-		ObjectMapper obj = new ObjectMapper();
-		try {
-			System.out.println(obj.writeValueAsString(list));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			System.out.println("WTF?");
-		}
+
 	}
 
 }

@@ -86,8 +86,8 @@ INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 12);
 -- users
 DELETE FROM kmdm_users;
 ALTER TABLE kmdm_users MODIFY user_id GENERATED AS IDENTITY (START WITH 1 INCREMENT BY 1);
-INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('admin', 'admin', 'admin@bank.com', 'Adam', 'Admin', 4);
-INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('employee', 'employee', 'employee@bank.com', 'Eve', 'Employee', 3);
+INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('admin', 'admin', 'admin@bank.com', 'Donald', 'Kerbatsos', 4);
+INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('employee', 'employee', 'employee@bank.com', 'Walter', 'Sobchak', 3);
 INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('premium', 'premium', 'premium@bank.com', 'Jeffrey', 'Lebowski', 2);
 INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('standard', 'standard', 'standard@bank.com', 'Jeff', 'Lebowski', 1);
 

@@ -57,4 +57,12 @@ public class PermissionService {
 		else
 			throw new UpdatePermissionException("Failed to remove " + permission.getPermissionName() + " from " + role.getRole());
 	}
+	
+	public Permission getPermissionByPermissionName(String name) throws RetrievePermissionException {
+		Permission p = pdi.getPermissionByPermissionName(name);
+		if (p != null)
+			return p;
+		else
+			throw new RetrievePermissionException("Failed to retrieve permission: " + name);
+	}
 }

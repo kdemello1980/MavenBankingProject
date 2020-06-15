@@ -2,6 +2,7 @@ package com.revature.mavenbanking.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.revature.mavenbanking.dao.impl.AccountDaoImpl;
 import com.revature.mavenbanking.dao.impl.AccountTypeDaoImpl;
@@ -178,6 +179,15 @@ public class AccountService {
 			throw new RetrieveAccountException("Failed to retrieve accounts for user: " + user.getUsername());
 	}
 	
+	public HashMap<User, ArrayList<Account>> getAllUserAccounts() throws RetrieveAccountException {
+		HashMap<User, ArrayList<Account>> accts = adi.getAllUserAccounts();
+		if (accts != null)
+			return accts;
+		else
+			throw new RetrieveAccountException("Failed to retrieve all user-associated accounts.");
+	}
+
+	
 	
 	/*
 	 * AccountType DAO methods.
@@ -218,5 +228,4 @@ public class AccountService {
 		else
 			throw new UpdateAccountException("Failed to update account type " + type.getAccountType());
 	}
-
 }

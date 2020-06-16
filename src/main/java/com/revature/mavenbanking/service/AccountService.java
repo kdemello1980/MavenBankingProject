@@ -228,4 +228,12 @@ public class AccountService {
 		else
 			throw new UpdateAccountException("Failed to update account type " + type.getAccountType());
 	}
+	
+	public ArrayList<AccountType> getAccountTypesByPermission(User user) throws RetrieveAccountException {
+		ArrayList<AccountType> list = atdi.getAccountTypesByPermission(user);
+		if (list != null) 
+			return list;
+		else
+			throw new RetrieveAccountException("Failed to retrive allowed account types for user: " + user.getUsername());
+	}
 }

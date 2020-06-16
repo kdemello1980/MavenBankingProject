@@ -49,7 +49,7 @@ public class AccountDetailServlet extends HttpServlet {
 			response.sendError(500, e.getMessage());
 		}
 		
-		out.println(ServletUtilities.openDocument("Account Details", "Details for " + acct.getAccountId()));
+		out.println(ServletUtilities.openDocument("Account Details", "Details for Account Number: " + acct.getAccountId()));
 		
 		
 		// Detail table.

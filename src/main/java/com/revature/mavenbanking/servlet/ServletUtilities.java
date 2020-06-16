@@ -55,6 +55,10 @@ public class ServletUtilities {
 	public static String textInput (String id, String value){
 		return "<input type=\"text\" name=\"" + id + "\" value=\"" + value + "\"/>";
 	}
+
+	public static String passwordInput (String id, String value){
+		return "<input type=\"password\" name=\"" + id + "\" value=\"" + value + "\"/>";
+	}
 	
 	public static String radio(String name, String id, String value, String label){
 		return "<input type=\"radio\" id=\"" + id + "\" name=\"" + name + "\" value=\"" + value + "\">" +

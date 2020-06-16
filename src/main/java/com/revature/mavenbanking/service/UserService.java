@@ -40,6 +40,11 @@ public class UserService {
 	 */
 	public User login(String userName, String password) throws RetrieveUserException {
 		User user = this.getUserByUserName(userName);
+		if (user == null) {
+			// this shouldn't happen, but I'm throwing the exception I would be getting
+			// upstream instead of catching it.
+			throw new RetrieveUserException("Login failed -- Invalid user name.");
+		}
 		if (user.getPassword().equals(password)){
 			user.setPassword("ah ah ah. no peeking");
 			return user;

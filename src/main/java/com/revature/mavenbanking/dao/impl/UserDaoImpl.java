@@ -91,18 +91,22 @@ public class UserDaoImpl implements UserDao {
 			stmt.setString(1, username);
 			
 			ResultSet rs = stmt.executeQuery();
-			User u = new User();
-			while (rs.next()) {
-				u.setUserId(rs.getInt("user_id"));
-				u.setUsername(rs.getString("username"));
-				u.setEmail(rs.getString("email"));
-				u.setPassword(rs.getString("user_pwd"));
-				u.setFirstName(rs.getString("firstname"));
-				u.setLastName(rs.getString("lastname"));
-				u.setRoleId(rs.getInt("role"));
-			}
-			u.setRole(new RoleDaoImpl().getRoleById(u.getRoleId()));
-			return u;
+			if (rs.next() != false) {
+				User u = new User();
+				do {
+					u.setUserId(rs.getInt("user_id"));
+					u.setUsername(rs.getString("username"));
+					u.setEmail(rs.getString("email"));
+					u.setPassword(rs.getString("user_pwd"));
+					u.setFirstName(rs.getString("firstname"));
+					u.setLastName(rs.getString("lastname"));
+					u.setRoleId(rs.getInt("role"));
+				} while (rs.next());
+				u.setRole(new RoleDaoImpl().getRoleById(u.getRoleId()));
+				return u;
+			} else {
+				return null;
+			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

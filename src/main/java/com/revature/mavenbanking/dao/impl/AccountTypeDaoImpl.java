@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import com.revature.mavenbanking.dao.oracle.*;
 import com.revature.mavenbanking.model.AccountType;
 import com.revature.mavenbanking.model.Permission;
+import com.revature.mavenbanking.model.User;
 
 public class AccountTypeDaoImpl implements AccountTypeDao {
 	Connection connection = null;
@@ -160,6 +161,54 @@ public class AccountTypeDaoImpl implements AccountTypeDao {
 			closeResources();
 		}
 	}
+	
+	
+	@Override
+	public ArrayList<AccountType> getAccountTypesByPermission(User user) {
+		String sql = "SELECT * FROM kmdm_account_types WHERE ";
+		ArrayList<AccountType> types = null;
+		if (user.getRole().getEffectivePermissions() == null)
+			return null;
+		for (int i = 0; i < user.getRole().getEffectivePermissions().size(); i++) {
+			sql += " permission_id = " + user.getRole().getEffectivePermissions().get(i).getPermissionId();
+			if (i == 0 || i < user.getRole().getEffectivePermissions().size() - 1) {
+				sql += " OR ";
+			}
+		}
+		System.out.println(sql);
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next() == false)
+				return null;
+			
+			types = new ArrayList<AccountType>();
+			do {
+				AccountType t = new AccountType();
+				t.setAccountType(rs.getString("type_name"));
+				t.setCompoundMonths(rs.getInt("compound_months"));
+				t.setInterestRate(rs.getBigDecimal("interest_rate"));
+				t.setMonthlyFee(rs.getBigDecimal("monthly_fee"));
+				t.setTypeId(rs.getInt("type_id"));
+				t.setPermissionId(rs.getInt("permission_id"));
+				types.add(t);
+			} while (rs.next());
+			rs.close();
+			
+			PermissionDaoImpl pdi = new PermissionDaoImpl();
+			for (AccountType t : types) {
+				t.setPermission(pdi.getPermissionByID(t.getPermissionId()));
+			}
+			return types;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}
+	}
+
 	// Closing all resources is important, to prevent memory leaks. 
 	// Ideally, you really want to close them in the reverse-order you open them
 	private void closeResources() {

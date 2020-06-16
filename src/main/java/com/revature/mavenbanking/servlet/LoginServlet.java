@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 			res.setStatus(400);
 			res.setHeader("message", "Invalid credentials.");
-			req.getRequestDispatcher("login.html").include(req, res);;
+			req.getRequestDispatcher("index.html").include(req, res);
 		}
 
 	}

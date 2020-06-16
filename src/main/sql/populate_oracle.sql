@@ -73,15 +73,19 @@ INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2, 6);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2, 7);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2, 8);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2, 9);
-INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2,13);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2, 13);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (2, 14);
 -- employee permissions
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 4);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 11);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3,13);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 14);
 -- admin permissions
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 4);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 5);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 12);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 13);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 14);
 
 -- users
 DELETE FROM kmdm_users;

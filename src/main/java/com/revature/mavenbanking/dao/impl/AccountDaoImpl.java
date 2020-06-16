@@ -67,9 +67,9 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public Account getAccountById(int id) {
-		String sql = "SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", s.status \"s.status\", t.type_id \"t.type_id\", t.type \"t.type\"\n"+
+		String sql = "SELECT a.account_id \"a.account_id\", a.balance \"a.balance\", s.status_id \"s.status_id\", t.type_id \"t.type_id\"\n"+
 				"FROM kmdm_accounts a, kmdm_account_status s, kmdm_account_types t \n" +
-				"WHERE a.status=s.status_id AND a.type=t.type_id AND a.account_id=?";
+				"WHERE a.status = s.status_id AND a.type_id = t.type_id AND a.account_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -78,20 +78,21 @@ public class AccountDaoImpl implements AccountDao {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			Account account = null;
-			AccountType type = null;
-			AccountStatus status = null;
+			int type = 0;
+			int status = 0;
 
 			while (rs.next()) {
-				type = new AccountType();
-				type.setAccountType(rs.getString("t.type"));
-				type.setTypeId(rs.getInt("t.type_id"));
-				
-				status = new AccountStatus();
-				status.setStatusId(rs.getInt("s.status_id"));
-				status.setStatusName(rs.getString("s.status"));
-				account = new Account(rs.getInt("a.account_id"), rs.getBigDecimal("a.balance"), status, type);
+				account = new Account();
+				account.setAccountId(rs.getInt("a.account_id"));
+				account.setBalance(rs.getBigDecimal("a.balance"));
+				status = rs.getInt("s.status_id");
+				type = rs.getInt("t.type_id");
 			}
 			rs.close();
+			AccountType at = new AccountTypeDaoImpl().getAccountTypeById(type);
+			AccountStatus as = new AccountStatusDaoImpl().getAccountStatusById(status);
+			account.setType(at);
+			account.setStatus(as);
 			return account;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -163,7 +164,7 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public boolean addAccount(Account account) {
-		String sql = "INSERT INTO kmdm_accounts (balance, status, type) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO kmdm_accounts (balance, status, type_id) VALUES (?, ?, ?)";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -186,7 +187,7 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public boolean updateAccount(Account account) {
-		String sql = "UPDATE kmdm_accounts SET balance=?, status=?, type=? WHERE account_id=?";
+		String sql = "UPDATE kmdm_accounts SET balance=?, status=?, type_id=? WHERE account_id=?";
 		try {
 			connection = DAOUtilities.getConnection();
 			stmt = connection.prepareStatement(sql);

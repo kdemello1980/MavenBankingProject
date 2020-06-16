@@ -20,10 +20,6 @@ import com.revature.mavenbanking.service.PermissionService;
 import com.revature.mavenbanking.servlet.ServletUtilities;
 
 public class AccountServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4978087815778481379L;
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -42,11 +38,7 @@ public class AccountServlet extends HttpServlet {
 		
 		try {
 			adminPermission = new PermissionService().getPermissionByPermissionName("ea_can_view_all_customer_info");
-//			System.out.println(adminPermission);
-//			System.out.println(user.getRole().getEffectivePermissions().contains(adminPermission));
 			for (Permission p : user.getRole().getEffectivePermissions()){
-//				System.out.println(p);
-//				System.out.println(p.getPermissionName().equals(adminPermission.getPermissionName()));
 				if (p.getPermissionName().equals(adminPermission.getPermissionName())) {
 					isAdmin = true;
 					break;
@@ -71,8 +63,14 @@ public class AccountServlet extends HttpServlet {
 		}
 
 		// Print the page.
-		out.println(ServletUtilities.openDocument("MavenBank Accounts", user.getFirstName() + " " + user.getLastName()));
+		out.println(ServletUtilities.openDocument("MavenBank Accounts.  Welcome ", user.getFirstName() + " " + user.getLastName()));
 		out.println(ServletUtilities.openTable("accounts"));
+		out.println(ServletUtilities.openForm("account_detail", "/MavenBankingProject/AccountDetailServlet"));
+		out.println(ServletUtilities.tr(ServletUtilities.th("Account Number") + 
+				ServletUtilities.th("Type") + 
+				ServletUtilities.th("Account Owner") +
+				ServletUtilities.th("Account Status") +
+				ServletUtilities.th("Balance")));
 		
 		for (User u : accts.keySet()){
 			for (Account a : accts.get(u)){
@@ -80,13 +78,14 @@ public class AccountServlet extends HttpServlet {
 			}
 		}
 		out.println(ServletUtilities.closeTable() + ServletUtilities.closeDocument());
+		out.println(ServletUtilities.submitButton("Detail"));
+		out.println(ServletUtilities.closeForm());
 	}
 	
 	private static String accountRow(Account a, User u){
+		String accountId = Integer.toString(a.getAccountId());
 		String content = ServletUtilities.tr(
-				ServletUtilities.td(
-						ServletUtilities.anchor("/MavenBanking/account/" + a.getAccountId(), String.valueOf(a.getAccountId()))
-						) +
+				ServletUtilities.th(ServletUtilities.radio("account_id", accountId, accountId, accountId)) +
 				ServletUtilities.td(a.getType().getAccountType()) +
 				ServletUtilities.td(u.getLastName() + ", " + u.getFirstName()) +
 				ServletUtilities.td(a.getStatus().getStatusName()) +

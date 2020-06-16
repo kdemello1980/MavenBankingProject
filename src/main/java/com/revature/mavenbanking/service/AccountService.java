@@ -57,12 +57,12 @@ public class AccountService {
 	 * deposit: adds the specified amount to the current balance and returns the new
 	 * balance on successful database update, null otherwise.
 	 */
-	public BigDecimal deposit(Account account, double amount) {
+	public BigDecimal deposit(Account account, double amount) throws UpdateAccountException {
 		account.setBalance(account.getBalance().add(BigDecimal.valueOf(amount)));
 		if (adi.updateAccount(account))
 			return account.getBalance();
 		else
-			return null;
+			throw new UpdateAccountException("Failed to save depost");
 	}
 	
 	/*
@@ -118,12 +118,12 @@ public class AccountService {
 			throw new UpdateAccountException("Failed to delete account " + id);
 	}
 	
-	public Account getAccountById(int id) throws Exception {
+	public Account getAccountById(int id) throws RetrieveAccountException {
 		Account a = adi.getAccountById(id);
 		if (a != null)
 			return a;
 		else
-			throw new Exception("Failed to retrieve account " + id);
+			throw new RetrieveAccountException("Failed to retrieve account " + id);
 	}
 	
 	public ArrayList<Account> getAccountsByStatus(AccountStatus status) throws RetrieveAccountException {

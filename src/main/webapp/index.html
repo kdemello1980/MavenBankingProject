@@ -1,41 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="index.js"></script>
-    <form name="home" action="/MavenBankingProject/index.html">
-        <input type="submit" value="Home"></submit>
-    </form>
+<title>Login Page</title>
 </head>
-
-<body onload="create_page()">
-    <!--The title is changed for the appropriate form. -->
-    <h1 id="title">>Invisible Pink Unicorn</h1>
-
-    <!--This empty form is replaced based on navigation and permissions -->
-    <form id="content"></form>
-
-    <script>
-        function create_page(){
-            let user = sessionStorage.getItem("user");
-            console.log(user || user ==="");
-            if (!user || user === ""){
-                form = document.getElementById("content");
-                title = document.getElementById("title");
-                login_form(form, title);
-            } 
-            else {
-                form = document.getElementById("content");
-                title = document.getElementById("title");
-                home_form(form, title);
-            }
-        }
-
-        // sessionStorage.clear();
-    </script>
+<body>
+	<h1>Welcome! Please login:</h1>
+	<form method="post" action="/MavenBankingProject/login">
+		<table>
+			<tr>
+				<td>Username:</td>
+				<td><input name="username" required/></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input name="password" type="password" required/></td>
+			</tr>
+			<tr>
+				<td />
+				<td><input type="submit" value="Login" /></td>
+		</table>
+	</form>
 </body>
-
 </html>

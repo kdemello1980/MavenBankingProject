@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.revature.mavenbanking.dao.impl.AccountDaoImpl;
+import com.revature.mavenbanking.dao.impl.AccountStatusDaoImpl;
 import com.revature.mavenbanking.dao.impl.AccountTypeDaoImpl;
 import com.revature.mavenbanking.exceptions.AddAccountException;
 import com.revature.mavenbanking.exceptions.RetrieveAccountException;
@@ -18,6 +19,7 @@ public class AccountService {
 
 	private AccountDaoImpl adi = new AccountDaoImpl();
 	private AccountTypeDaoImpl atdi = new AccountTypeDaoImpl();
+	private AccountStatusDaoImpl asdi = new AccountStatusDaoImpl();
 	
 	/*
 	 * Service methods.
@@ -104,9 +106,11 @@ public class AccountService {
 	/*
 	 * Account DAO methods.
 	 */
-	public boolean addAccount(Account account) throws AddAccountException {
-		if(adi.addAccount(account))
-			return true;
+	public int addAccount(Account account) throws AddAccountException {
+		int a = adi.addAccount(account);
+		System.out.println(a);
+		if(a != 0)
+			return a;
 		else
 			throw new AddAccountException("Failed to add new account");
 	}
@@ -192,9 +196,10 @@ public class AccountService {
 	/*
 	 * AccountType DAO methods.
 	 */
-	public boolean addAccountType(AccountType type) throws AddAccountException {
-		if (atdi.addAccountType(type))
-			return true;
+	public int addAccountType(AccountType type) throws AddAccountException {
+		int a = atdi.addAccountType(type);
+		if (a != 0)
+			return a;
 		else
 			throw new AddAccountException("Failed to add account type " + type.getAccountType());
 	}
@@ -235,5 +240,20 @@ public class AccountService {
 			return list;
 		else
 			throw new RetrieveAccountException("Failed to retrive allowed account types for user: " + user.getUsername());
+	}
+	
+	/*
+	 * AcountStatus DAO methods.
+	 */
+	public AccountStatus getAccountStatusByStatus(String status) throws RetrieveAccountException {
+		AccountStatus s = asdi.getAccountStatusByStatus(status);
+		if (s != null)
+			return s;
+		else
+			throw new RetrieveAccountException("Failed to retrieve status for: " + status);
+	}
+	
+	public AccountStatus getDefaultStatus() throws RetrieveAccountException {
+		return this.getAccountStatusByStatus("Open");
 	}
 }

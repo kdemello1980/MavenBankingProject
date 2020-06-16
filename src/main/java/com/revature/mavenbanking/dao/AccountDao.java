@@ -15,7 +15,7 @@ public interface AccountDao {
 	
 	public boolean addUserToAccount(Account account, User user);
 	public boolean deleteUserFromAccount(Account account, User user);
-	public boolean addAccount(Account account);
+	public int addAccount(Account account);
 	public boolean updateAccount(Account account);
 	public boolean deleteAccountById(int id);
 }

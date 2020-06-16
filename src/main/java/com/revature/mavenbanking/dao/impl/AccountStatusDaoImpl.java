@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.revature.mavenbanking.dao.AccountStatusDao;
 import com.revature.mavenbanking.dao.DAO;
 import com.revature.mavenbanking.dao.oracle.DAOUtilities;
@@ -63,6 +65,30 @@ public class AccountStatusDaoImpl implements AccountStatusDao {
 		} finally {
 			closeResources();
 		}
+	}
+
+	@Override
+	public AccountStatus getAccountStatusByStatus(String status) {
+		String sql = "SELECT * FROM kmdm_account_status WHERE status = ?";
+		AccountStatus s = null;
+		try {
+			connection = DAOUtilities.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, status);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				s = new AccountStatus();
+				s.setStatusId(rs.getInt("status_id"));
+				s.setStatusName(rs.getString("status"));
+			}
+			return s;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResources();
+		}
+		
 	}
 
 	@Override

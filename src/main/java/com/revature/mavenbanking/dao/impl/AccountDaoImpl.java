@@ -2,10 +2,12 @@ package com.revature.mavenbanking.dao.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.revature.mavenbanking.dao.AccountDao;
 import com.revature.mavenbanking.dao.oracle.DAOUtilities;
@@ -163,23 +165,28 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public boolean addAccount(Account account) {
+	public int addAccount(Account account) {
 		String sql = "INSERT INTO kmdm_accounts (balance, status, type_id) VALUES (?, ?, ?)";
 		try {
+			String[] generatedColumns = {"account_id"};
 			connection = DAOUtilities.getConnection();
-			stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql, generatedColumns);
 			stmt.setBigDecimal(1, account.getBalance());
 			stmt.setInt(2, account.getStatus().getStatusId());
 			stmt.setInt(3, account.getType().getTypeId());
-			
-			if (stmt.executeUpdate() != 0) 
-				return true;
-			else
-				return false;
-			
+
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs != null && rs.next()) {
+				int key = (int) rs.getLong(1);
+//				System.out.println(key);
+				return key;
+			} else {
+				return 0;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return 0;
 		} finally {
 			closeResources();
 		}

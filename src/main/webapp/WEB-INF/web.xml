@@ -23,11 +23,6 @@
     <servlet-class>com.revature.mavenbanking.servlet.AccountDetailServlet</servlet-class>
   </servlet>
   <servlet>
-    <display-name>AddAccountServlet</display-name>
-    <servlet-name>AddAccountServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AddAccountServlet</servlet-class>
-  </servlet>
-  <servlet>
     <display-name>AccountDepositServlet</display-name>
     <servlet-name>AccountDepositServlet</servlet-name>
     <servlet-class>com.revature.mavenbanking.servlet.AccountDepositServlet</servlet-class>
@@ -87,10 +82,6 @@
     <url-pattern>/AccountDetailServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AddAccountServlet</servlet-name>
-    <url-pattern>/AddAccountServlet</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>AccountDepositServlet</servlet-name>
     <url-pattern>/AccountDepositServlet</url-pattern>
   </servlet-mapping>
@@ -118,5 +109,15 @@
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/TestServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddAccountServlet</display-name>
+    <servlet-name>AddAccountServlet</servlet-name>
+    <servlet-class>com.revature.mavenbanking.servlet.AddAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddAccountServlet</servlet-name>
+    <url-pattern>/AddAccountServlet</url-pattern>
   </servlet-mapping>
 </web-app>

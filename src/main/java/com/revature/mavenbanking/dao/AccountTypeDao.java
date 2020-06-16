@@ -11,7 +11,7 @@ public interface AccountTypeDao {
 	public AccountType getAccountTypeById(int id);
 	public ArrayList<AccountType> getAccountTypesByPermission(User user);
 	
-	public boolean addAccountType(AccountType type);
+	public int addAccountType(AccountType type);
 	public boolean updateAccountType(AccountType type);
 	public boolean deleteAccountTypeById(int id);
 }

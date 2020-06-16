@@ -111,7 +111,8 @@ public class AccountServlet extends HttpServlet {
 		out.println("<br>");
 		
 		// Add account form.
-		String accountFormString = ServletUtilities.openForm("new_account", "/AddAccountservlet") +
+		out.println("<h2>Add New Account</h2>");
+		String accountFormString = ServletUtilities.openForm("new_account", "/MavenBankingProject/AddAccountServlet") +
 				ServletUtilities.openTable("new_account_table") + ServletUtilities.tr(
 						ServletUtilities.th("Account Type") + ServletUtilities.th("Owner"));
 		

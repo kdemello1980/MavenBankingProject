@@ -59,6 +59,10 @@ public class ServletUtilities {
 		return "<input type=\"text\" name=\"" + id + "\" value=\"" + value + "\" required/>";
 	}
 	
+	public static String readonlyInput(String id, String value){
+		return "<input type=\"text\" name=\"" + id + "\" value=\"" + value + "\" required readonly/>";
+	}
+	
 	public static String numberInput(String id, String value){
 		return "<input type=\"number\" name=\"" + id + "\" value=\"" + value + "\" required/>";
 	}
@@ -71,7 +75,7 @@ public class ServletUtilities {
 	}
 	
 	public static String radio(String name, String id, String value, String label){
-		return "<input type=\"radio\" id=\"" + id + "\" name=\"" + name + "\" value=\"" + value + "\">" +
+		return "<input type=\"radio\" id=\"" + id + "\" name=\"" + name + "\" value=\"" + value + "\" required>" +
 				"<label for=\"" + id + "\">" + label + "</label>";
 	}
 	

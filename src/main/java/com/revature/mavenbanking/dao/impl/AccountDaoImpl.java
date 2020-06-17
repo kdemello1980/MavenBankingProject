@@ -82,19 +82,22 @@ public class AccountDaoImpl implements AccountDao {
 			Account account = null;
 			int type = 0;
 			int status = 0;
-
-			while (rs.next()) {
-				account = new Account();
-				account.setAccountId(rs.getInt("a.account_id"));
-				account.setBalance(rs.getBigDecimal("a.balance"));
-				status = rs.getInt("s.status_id");
-				type = rs.getInt("t.type_id");
+			if (rs.next()) {
+				do {
+					account = new Account();
+					account.setAccountId(rs.getInt("a.account_id"));
+					account.setBalance(rs.getBigDecimal("a.balance"));
+					status = rs.getInt("s.status_id");
+					type = rs.getInt("t.type_id");
+				} while (rs.next());
 			}
 			rs.close();
-			AccountType at = new AccountTypeDaoImpl().getAccountTypeById(type);
-			AccountStatus as = new AccountStatusDaoImpl().getAccountStatusById(status);
-			account.setType(at);
-			account.setStatus(as);
+			if (account != null) {
+				AccountType at = new AccountTypeDaoImpl().getAccountTypeById(type);
+				AccountStatus as = new AccountStatusDaoImpl().getAccountStatusById(status);
+				account.setType(at);
+				account.setStatus(as);
+			}
 			return account;
 		} catch (SQLException e) {
 			e.printStackTrace();

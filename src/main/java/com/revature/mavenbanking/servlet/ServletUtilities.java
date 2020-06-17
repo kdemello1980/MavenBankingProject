@@ -6,7 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.mavenbanking.exceptions.RetrievePermissionException;
+import com.revature.mavenbanking.model.Permission;
 import com.revature.mavenbanking.model.User;
+import com.revature.mavenbanking.service.PermissionService;
 
 public class ServletUtilities {
 	
@@ -52,12 +55,19 @@ public class ServletUtilities {
 		return "<a href=\"" + target + "\">" + content + "</a>";
 	}
 	
-	public static String textInput (String id, String value){
-		return "<input type=\"text\" name=\"" + id + "\" value=\"" + value + "\"/>";
+	public static String textInput(String id, String value){
+		return "<input type=\"text\" name=\"" + id + "\" value=\"" + value + "\" required/>";
 	}
-
+	
+	public static String numberInput(String id, String value){
+		return "<input type=\"number\" name=\"" + id + "\" value=\"" + value + "\" required/>";
+	}
+	
+	public static String dollarInput(String id, String value){
+		return "<input type=\"number\" step=\".01\" min=\"0.00\" name=\"" + id + "\" value=\"" + value + "\" required/>";
+	}
 	public static String passwordInput (String id, String value){
-		return "<input type=\"password\" name=\"" + id + "\" value=\"" + value + "\"/>";
+		return "<input type=\"password\" name=\"" + id + "\" value=\"" + value + "\" required/>";
 	}
 	
 	public static String radio(String name, String id, String value, String label){
@@ -90,5 +100,29 @@ public class ServletUtilities {
 			request.getRequestDispatcher("index.html").include(request, response);
 		}
 		return user;
+	}
+	
+	// Check a user's permissions.
+	public static boolean hasPermission(User user, String permission, HttpServletResponse res) {
+		PermissionService pService = new PermissionService();
+		boolean hasPermission = false;
+		try {
+			Permission perm = pService.getPermissionByPermissionName(permission);
+			for (Permission p : user.getRole().getEffectivePermissions()){
+				if (p.getPermissionName().equals(perm.getPermissionName())) {
+					hasPermission = true;
+					break;
+				}
+			}
+			return hasPermission;
+		} catch (RetrievePermissionException e) {
+			e.printStackTrace();
+			try {
+				res.sendError(500, e.getMessage());
+			} catch (IOException io) {
+				io.printStackTrace();
+			}
+			return false;
+		}
 	}
 }

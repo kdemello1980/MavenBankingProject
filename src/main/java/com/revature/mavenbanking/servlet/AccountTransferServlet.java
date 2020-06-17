@@ -35,7 +35,8 @@ public class AccountTransferServlet extends HttpServlet {
 			transferAccount = service.getAccountById(Integer.parseInt(request.getParameter("transfer_account")));
 		} catch (RetrieveAccountException e){
 			e.printStackTrace();
-			response.sendError(500, e.getMessage());
+			response.sendError(400, e.getMessage());
+			return;
 		}
 		
 		try {
@@ -48,6 +49,7 @@ public class AccountTransferServlet extends HttpServlet {
 		} catch (UpdateAccountException e){
 			e.printStackTrace();
 			response.sendError(500, e.getMessage());
+			return;
 		}
 	}
 

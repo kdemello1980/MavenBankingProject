@@ -35,6 +35,7 @@ public class AccountDepositServlet extends HttpServlet {
 		} catch (UpdateAccountException e){
 			e.printStackTrace();
 			response.sendError(500, e.getMessage());
+			return;
 		}
 	}
 

@@ -73,7 +73,7 @@ public class UpdateUserServlet extends HttpServlet {
 			response.sendError(500, e.getMessage());
 			return;
 		}
-		RequestDispatcher dis = request.getRequestDispatcher("/MavenBankingProject/users");
+		RequestDispatcher dis = request.getRequestDispatcher("/users");
 		dis.forward(request, response);
 	}
 

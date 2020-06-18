@@ -31,27 +31,27 @@ public class AccountService {
 	 * 
 	 * Returns the new balance upon successful update in the database.  Null otherwise.
 	 */
-	public BigDecimal calculateInterest(Account account, int months){
-		AccountType type = atdi.getAccountTypeById(account.getType().getTypeId());
+	public BigDecimal calculateInterest(Account account, int months) throws UpdateAccountException {
 		AccountStatus status = account.getStatus();
 		if ( ! status.getStatusName().equals("Open")){
 			return null;
 		}
-		BigDecimal newBalance = null;
-		
+		System.out.println("made it");
 		// Get the number of time periods.
-		int periods = months / type.getCompoundMonths();
-		int remainder = months % type.getCompoundMonths();
+		double period = months / 12;
+//		int remainder = months % type.getCompoundMonths();
 		
-		// BigDecimals are ugly because there's no operator overloading in Java.
-		newBalance = account.getBalance().multiply((BigDecimal.valueOf(1.0).add(type.getInterestRate()))).pow(periods);
-		BigDecimal interest  = newBalance.multiply(type.getInterestRate()).multiply(BigDecimal.valueOf((double)remainder));
-		newBalance.add(interest);
-		account.setBalance(newBalance);
+		double balance = account.getBalance().doubleValue();
+		double interest = account.getType().getInterestRate().doubleValue();
+		double newBalance = balance * (1 + interest * period);
+
+		System.out.println(newBalance);
+		BigDecimal bd = BigDecimal.valueOf(newBalance);
+		account.setBalance(bd);
 		if (adi.updateAccount(account)){
-			return newBalance;
+			return bd;
 		} else {
-			return null;
+			throw new UpdateAccountException("Failed to calculate interest.");
 		}
 	}
 	

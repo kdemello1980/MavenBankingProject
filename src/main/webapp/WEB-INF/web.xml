@@ -6,10 +6,6 @@
     <servlet-class>com.revature.mavenbanking.servlet.AccountServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>PassTimeServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.PassTimeServlet</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.revature.mavenbanking.servlet.LoginServlet</servlet-class>
   </servlet>
@@ -64,10 +60,6 @@
   <servlet-mapping>
     <servlet-name>AccountServlet</servlet-name>
     <url-pattern>/transfer</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>PassTimeServlet</servlet-name>
-    <url-pattern>/passTime</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
@@ -129,5 +121,25 @@
   <servlet-mapping>
     <servlet-name>UpdateUserServlet</servlet-name>
     <url-pattern>/UpdateUserServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddUserToAccountServlet</display-name>
+    <servlet-name>AddUserToAccountServlet</servlet-name>
+    <servlet-class>com.revature.mavenbanking.servlet.AddUserToAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddUserToAccountServlet</servlet-name>
+    <url-pattern>/AddUserToAccountServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PassTimeServlet</display-name>
+    <servlet-name>PassTimeServlet</servlet-name>
+    <servlet-class>com.revature.mavenbanking.servlet.PassTimeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PassTimeServlet</servlet-name>
+    <url-pattern>/PassTimeServlet</url-pattern>
   </servlet-mapping>
 </web-app>

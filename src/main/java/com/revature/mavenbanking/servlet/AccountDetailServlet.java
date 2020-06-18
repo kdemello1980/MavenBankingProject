@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,12 +33,18 @@ public class AccountDetailServlet extends HttpServlet {
 		User user = ServletUtilities.getUserFromSession(request, response);
 		
 		PrintWriter out = response.getWriter();		
-		int accountId;
+		int accountId  = -1;
 		try {
 			accountId = Integer.parseInt(request.getParameter("account_id"));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			accountId = (int)request.getAttribute("account_number");
+			try {
+				accountId = (int)request.getAttribute("account_number");
+			} catch (NullPointerException np) {
+				RequestDispatcher dis = request.getRequestDispatcher("/accounts");
+				dis.forward(request, response);
+				return;
+			}
 		}
 		String accountString = Integer.toString(accountId);
 		AccountService service = new AccountService();
@@ -159,6 +166,18 @@ public class AccountDetailServlet extends HttpServlet {
 			addUserForm += ServletUtilities.submitButton("Add User");
 			addUserForm += ServletUtilities.closeForm();
 			out.println(addUserForm);
+		}
+		
+		// Pass time button.
+		if (ServletUtilities.hasPermission(user, "a_account_pass_time", response)) {
+			out.println("<br><h2>Pass Time</h2>");
+			String passTimeForm = ServletUtilities.openForm("pass_time_form", "/MavenBankingProject/PassTimeServlet");
+			passTimeForm += ServletUtilities.openTable("pass_time_table");
+			passTimeForm += ServletUtilities.tr(ServletUtilities.th("Time (months)") + ServletUtilities.td(ServletUtilities.numberInput("time", "0")) + 
+			ServletUtilities.td(ServletUtilities.submitButton("Go")));
+			passTimeForm += ServletUtilities.closeTable();
+			passTimeForm += ServletUtilities.closeForm();
+			out.println(passTimeForm);
 		}
 		out.println(ServletUtilities.closeDocument());
 	}

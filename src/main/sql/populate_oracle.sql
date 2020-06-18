@@ -35,6 +35,8 @@ INSERT INTO kmdm_permissions (permission_name) VALUES ('a_can_add_new_employee')
 INSERT INTO kmdm_permissions (permission_name) VALUES ('sp_account_types_standard'); -- standard, premium 13
 INSERT INTO kmdm_permissions (permission_name) VALUES ('p_account_types_premium'); -- premium, 14
 INSERT INTO kmdm_permissions (permission_name) VALUES ('a_account_pass_time'); -- admin, 15
+INSERT INTO kmdm_permissions (permission_name) VALUES ('ea_can_modify_account'); -- employee, admin 16
+
 
 -- account_types --
 DELETE FROM kmdm_account_types;
@@ -81,6 +83,7 @@ INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 4);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 11);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3,13);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 14);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (3, 16);
 -- admin permissions
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 4);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 5);
@@ -88,6 +91,7 @@ INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 12);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 13);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 14);
 INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 15);
+INSERT INTO kmdm_role_permissions (role_id, permission_id) VALUES (4, 16);
 
 -- users
 DELETE FROM kmdm_users;

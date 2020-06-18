@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.revature.mavenbanking.exceptions.RetrieveAccountException;
 import com.revature.mavenbanking.exceptions.RetrieveUserException;
 import com.revature.mavenbanking.model.Account;
+import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.User;
 import com.revature.mavenbanking.service.AccountService;
 import com.revature.mavenbanking.service.UserService;
@@ -61,6 +62,9 @@ public class AccountDetailServlet extends HttpServlet {
 		
 		out.println(ServletUtilities.openDocument("Account Details", "Details for Account Number: " + acct.getAccountId()));
 		
+		if (ServletUtilities.hasPermission(user, "ea_can_modify_account", response)) {
+			out.println(ServletUtilities.openForm("update_account", "/MavenBankingProject/UpdateAccountServlet"));
+		}
 		
 		// Detail table.
 		out.println(ServletUtilities.openTable("detail_table"));
@@ -74,11 +78,29 @@ public class AccountDetailServlet extends HttpServlet {
 						ServletUtilities.td(acct.getType().getAccountType())
 						)
 				);
-		out.println(
-				ServletUtilities.tr(ServletUtilities.th("Account Status") + 
-						ServletUtilities.td(acct.getStatus().getStatusName())
-						)
-				);
+		if (ServletUtilities.hasPermission(user, "ea_can_modify_account", response)) {
+			ArrayList<AccountStatus> status = null;
+			try {
+				status = service.getAllStatus();
+			} catch (RetrieveAccountException e) {
+				e.printStackTrace();
+				response.sendError(500, e.getMessage());
+				return;
+			}
+			String statusSelect = new String();
+			statusSelect += ServletUtilities.openSelect("account_status", "account_status");
+			for (AccountStatus s : status) {
+				statusSelect += ServletUtilities.selectOption(String.valueOf(s.getStatusId()), s.getStatusName());
+			}
+			statusSelect += ServletUtilities.closeSelect();
+			out.println(ServletUtilities.tr(ServletUtilities.th("Status") + ServletUtilities.td(statusSelect)));
+		} else {
+			out.println(
+					ServletUtilities.tr(ServletUtilities.th("Account Status") + 
+							ServletUtilities.td(acct.getStatus().getStatusName())
+							)
+					);
+		}
 		out.println(
 				ServletUtilities.tr(ServletUtilities.th("Interest Rate") + 
 						ServletUtilities.td(acct.getType().getInterestRate().toString())
@@ -96,12 +118,23 @@ public class AccountDetailServlet extends HttpServlet {
 						)
 				);
 		out.println(ServletUtilities.closeTable());
+		if (ServletUtilities.hasPermission(user, "ea_can_modify_account", response)) {
+			out.println(ServletUtilities.submitButton("Update"));
+			out.println(ServletUtilities.closeForm());
+		}
+		
+		
+		
+		
+		
+		
 		out.println("<br><br>");
 		
 		// Deposit form.
 		out.println("<h2>Deposit &amp; Withdraw</h2>");
 		out.println(ServletUtilities.openForm("deposit_form", "/MavenBankingProject/AccountDepositServlet"));
 		out.println(ServletUtilities.openTable("deposit_table"));
+
 		out.println(
 				ServletUtilities.tr(
 						ServletUtilities.td(ServletUtilities.dollarInput("deposit_amount", "0.00"))+

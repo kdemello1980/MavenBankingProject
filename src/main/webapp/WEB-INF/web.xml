@@ -142,4 +142,14 @@
     <servlet-name>PassTimeServlet</servlet-name>
     <url-pattern>/PassTimeServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateAccountServlet</display-name>
+    <servlet-name>UpdateAccountServlet</servlet-name>
+    <servlet-class>com.revature.mavenbanking.servlet.UpdateAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateAccountServlet</servlet-name>
+    <url-pattern>/UpdateAccountServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

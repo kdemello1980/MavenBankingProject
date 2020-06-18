@@ -256,4 +256,20 @@ public class AccountService {
 	public AccountStatus getDefaultStatus() throws RetrieveAccountException {
 		return this.getAccountStatusByStatus("Open");
 	}
+	
+	public ArrayList<AccountStatus> getAllStatus() throws RetrieveAccountException {
+		ArrayList<AccountStatus> s = asdi.getAllStatus();
+		if (s != null)
+			return s;
+		else
+			throw new RetrieveAccountException("Failed to retrieve all AccountStatus objects.");
+	}
+	
+	public AccountStatus getAccountStatusById(int id)  throws RetrieveAccountException {
+		AccountStatus s = asdi.getAccountStatusById(id);
+		if (s != null)
+			return s;
+		else
+			throw new RetrieveAccountException("Failed to retrieve AccountStatus id: " + id);
+	}
 }

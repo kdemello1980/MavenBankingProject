@@ -102,10 +102,10 @@ INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VA
 INSERT INTO kmdm_users (username, user_pwd, email, firstname, lastname, role) VALUES ('standard', 'standard', 'standard@bank.com', 'Jeff', 'Lebowski', 1);
 
 -- user_accounts
-INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10000, 4);
-INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10000, 1);
-INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10028, 4);
-INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (10056, 3);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (1, 4);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (1, 1);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (2, 4);
+INSERT INTO kmdm_user_accounts (account_id, user_id) VALUES (3, 3);
 
 
 SELECT * FROM kmdm_roles;

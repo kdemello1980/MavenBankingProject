@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import com.revature.mavenbanking.dao.oracle.DAOUtilities;
+import com.revature.mavenbanking.dao.postgresql.DAOUtilities;
 import com.revature.mavenbanking.model.User;
 import com.revature.mavenbanking.model.Role;
 //import com.revature.mavenbanking.dao.impl.RoleDaoImpl;

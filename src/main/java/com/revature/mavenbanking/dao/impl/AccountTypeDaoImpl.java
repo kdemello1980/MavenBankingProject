@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.revature.mavenbanking.dao.oracle.*;
+import com.revature.mavenbanking.dao.postgresql.*;
 import com.revature.mavenbanking.model.AccountType;
 import com.revature.mavenbanking.model.Permission;
 import com.revature.mavenbanking.model.User;

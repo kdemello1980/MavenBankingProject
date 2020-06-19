@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.revature.mavenbanking.dao.oracle.DAOUtilities;
+import com.revature.mavenbanking.dao.postgresql.DAOUtilities;
 import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.model.Permission;
 

@@ -10,7 +10,7 @@ import javax.naming.spi.DirStateFactory.Result;
 
 import com.revature.mavenbanking.dao.AccountStatusDao;
 import com.revature.mavenbanking.dao.DAO;
-import com.revature.mavenbanking.dao.oracle.DAOUtilities;
+import com.revature.mavenbanking.dao.postgresql.DAOUtilities;
 import com.revature.mavenbanking.model.AccountStatus;
 
 public class AccountStatusDaoImpl implements AccountStatusDao {

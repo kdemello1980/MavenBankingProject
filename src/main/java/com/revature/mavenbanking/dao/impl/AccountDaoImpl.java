@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.revature.mavenbanking.dao.AccountDao;
-import com.revature.mavenbanking.dao.oracle.DAOUtilities;
+import com.revature.mavenbanking.dao.postgresql.DAOUtilities;
 import com.revature.mavenbanking.model.Account;
 import com.revature.mavenbanking.model.AccountStatus;
 import com.revature.mavenbanking.model.AccountType;

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import com.revature.mavenbanking.dao.PermissionDao;
 import com.revature.mavenbanking.model.Permission;
 import com.revature.mavenbanking.model.Role;
-import com.revature.mavenbanking.dao.oracle.DAOUtilities;
+import com.revature.mavenbanking.dao.postgresql.DAOUtilities;
 
 public class PermissionDaoImpl implements PermissionDao {
 	private Connection connection = null;

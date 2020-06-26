@@ -23,16 +23,16 @@ import com.revature.mavenbanking.servlet.ServletUtilities;
 public class AccountServlet extends HttpServlet {
 	private static final long serialVersionUID = -4978087815778481379L;
 	
-	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-		User user = ServletUtilities.getUserFromSession(req, res);
-		
-		// Should have been redirected to login page if null already.
-		if (user != null) {
-			doPost(req, res);
-		}
-	}
+//	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+//		User user = ServletUtilities.getUserFromSession(req, res);
+//		
+//		// Should have been redirected to login page if null already.
+//		if (user != null) {
+//			doPost(req, res);
+//		}
+//	}
 	
-	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		PrintWriter out = res.getWriter();
 		HashMap<User, ArrayList<Account>> accts = null;
 		Permission adminPermission = null;

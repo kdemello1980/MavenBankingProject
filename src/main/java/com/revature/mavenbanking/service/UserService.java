@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import com.revature.mavenbanking.dao.impl.RoleDaoImpl;
 import com.revature.mavenbanking.dao.impl.UserDaoImpl;
 import com.revature.mavenbanking.exceptions.AddUserException;
+import com.revature.mavenbanking.exceptions.RetrievePermissionException;
 import com.revature.mavenbanking.exceptions.RetrieveUserException;
 import com.revature.mavenbanking.exceptions.UpdateUserException;
+import com.revature.mavenbanking.model.Permission;
 import com.revature.mavenbanking.model.Role;
 import com.revature.mavenbanking.model.User;
 
 public class UserService {
 
 	private UserDaoImpl udi = new UserDaoImpl();
+	private PermissionService pService = new PermissionService();
 	
 	/*
 	 * Business logic. These throw exceptions.
@@ -52,6 +55,28 @@ public class UserService {
 		else{
 			throw new RetrieveUserException("Login failed.");
 		}
+	}
+	
+	/**
+	 * Test the Permissions associated with a User-contained Role object.
+	 * 
+	 * 
+	 * @param User user, String permission
+	 * @return boolean true if the user has the permission, false otherwise.
+	 */
+	public boolean hasPermission(User user, String permission) {
+		boolean hasPermission = false;
+		try {
+			Permission addUserPermission = pService.getPermissionByPermissionName(permission);
+			for (Permission p : user.getRole().getEffectivePermissions()) {
+				if (p.getPermissionName().equals(addUserPermission.getPermissionName())){
+					hasPermission = true;
+				}
+			}
+		} catch (RetrievePermissionException e) {
+			e.printStackTrace();
+		}
+		return hasPermission;
 	}
 	
 	/*

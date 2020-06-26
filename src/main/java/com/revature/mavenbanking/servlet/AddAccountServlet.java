@@ -36,17 +36,16 @@ public class AddAccountServlet extends HttpServlet {
 		UserService uService = new UserService();
 		
 		int typeId = Integer.valueOf(request.getParameter("type_select"));
-		int userId = Integer.valueOf(request.getParameter("user_select"));
 		
 		// Retrieve the account owner.
-		User owner = null;		
+		User owner = null;
 		try {
-			owner = uService.getUserById(userId);
+			owner = uService.getUserById(Integer.valueOf(request.getParameter("user_id")));
 		} catch (RetrieveUserException e) {
 			e.printStackTrace();
 			response.sendError(500, e.getMessage());
-			return;
 		}
+		
 		
 		// Retrieve the account type and status objects.
 		AccountType type = null;
@@ -67,7 +66,8 @@ public class AddAccountServlet extends HttpServlet {
 			account = new Account();
 			account.setStatus(status);
 			account.setType(type);
-			account.setBalance(new BigDecimal(0));
+			double initialDeposit = Double.valueOf(request.getParameter("initial_deposit"));
+			account.setBalance(BigDecimal.valueOf(initialDeposit));
 			accountId = aService.addAccount(account);
 		} catch (AddAccountException e) {
 			e.printStackTrace();
@@ -86,8 +86,9 @@ public class AddAccountServlet extends HttpServlet {
 		}
 		
 		// If we've made it to this point, go back to the accounts page.
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/accounts");
-		dispatcher.forward(request, response);
+//		RequestDispatcher dispatcher = request.getRequestDispatcher("/accounts");
+//		dispatcher.forward(request, response);
+		response.sendRedirect("/MavenBankingProject/JSONAccountServlet");
 	}
 
 }

@@ -37,6 +37,14 @@
     <servlet-name>AddUserServlet</servlet-name>
     <servlet-class>com.revature.mavenbanking.servlet.AddUserServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>JSONAccountServlet</servlet-name>
+  	<servlet-class>com.revature.mavenbanking.servlet.JSONAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>JSONAccountServlet</servlet-name>
+  	<url-pattern>/JSONAccountServlet</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AccountServlet</servlet-name>
     <url-pattern>/accounts/*</url-pattern>
@@ -90,7 +98,7 @@
     <url-pattern>/AddUserServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>/index.html</welcome-file>
+    <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>

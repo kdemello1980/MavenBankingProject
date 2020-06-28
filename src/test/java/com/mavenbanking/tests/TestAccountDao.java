@@ -2,9 +2,8 @@ package com.mavenbanking.tests;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-import com.revature.mavenbanking.dao.impl.*;
-import com.revature.mavenbanking.model.*; 
+import com.kdemello.mavenbanking.dao.impl.*;
+import com.kdemello.mavenbanking.model.*; 
 public class TestAccountDao {
 
 	public static void main(String[] args) {

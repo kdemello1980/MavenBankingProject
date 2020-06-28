@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.revature.mavenbanking.model.*"%>
+<%@ page import="com.kdemello.mavenbanking.model.*"%>
 <%@ page import="com.google.gson.*"%>
 <%@ page import="com.google.gson.reflect.TypeToken"%>
 <%@ page import="java.lang.reflect.Type"%>

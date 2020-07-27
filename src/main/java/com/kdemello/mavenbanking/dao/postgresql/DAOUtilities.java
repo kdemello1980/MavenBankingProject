@@ -23,7 +23,7 @@ public class DAOUtilities {
 				System.out.println("Could not register driver!");
 				e.printStackTrace();
 			}
-			conneciton = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);			System.out.println("Opening new connection...");
+			conneciton = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);			
 			System.out.println("Opened connection...");
 
 		}

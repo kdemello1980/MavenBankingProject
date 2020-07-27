@@ -1,8 +1,8 @@
-package com.kdemello.mavenbanking.servlet;
+package com.kdemello.mavenbanking.servlet.old;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,29 +12,28 @@ import com.kdemello.mavenbanking.exceptions.UpdateAccountException;
 import com.kdemello.mavenbanking.model.Account;
 import com.kdemello.mavenbanking.model.User;
 import com.kdemello.mavenbanking.service.AccountService;
+import com.kdemello.mavenbanking.servlet.ServletUtilities;
 
 /**
- * Servlet implementation class AddUserToAccountServlet
+ * Servlet implementation class AccountDeposit
  */
-public class PassTimeServlet extends HttpServlet {
+public class AccountWithdrawServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountService aService = new AccountService();
+		
+		// Check for a user in the session, and if it's null include the login.html page.
 		User user = ServletUtilities.getUserFromSession(request, response);
 
-		int time = Integer.valueOf(request.getParameter("time"));
-		
+		// Get amount and account from the request parameters.
 		Account account = (Account) request.getSession().getAttribute("account");
-		System.out.println(account);
-
-		// Add the user to the account.
+		double amount = Double.valueOf(request.getParameter("withdraw_amount"));
+		
 		try {
-			aService.calculateInterest(account, time);
+			BigDecimal newBalance = new AccountService().withdraw(account, amount);
 			request.setAttribute("account_number", account.getAccountId());
-			RequestDispatcher dis = request.getRequestDispatcher("/AccountDetailServlet");
-			dis.forward(request, response);
-		} catch (UpdateAccountException e) {
+			request.getRequestDispatcher("/AccountDetailServlet").forward(request, response);
+		} catch (UpdateAccountException e){
 			e.printStackTrace();
 			response.sendError(500, e.getMessage());
 		}

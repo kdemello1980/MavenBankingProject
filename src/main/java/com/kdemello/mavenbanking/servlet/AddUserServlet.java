@@ -59,7 +59,7 @@ public class AddUserServlet extends HttpServlet {
 		UserService uService = new UserService();
 		RoleService rService = new RoleService();
 		newUser.setEmail(request.getParameter("email"));
-		newUser.setUsername(request.getParameter("user_name"));
+		newUser.setUsername(request.getParameter("username"));
 		newUser.setFirstName(request.getParameter("first_name"));
 		newUser.setLastName(request.getParameter("last_name"));
 		newUser.setPassword(request.getParameter("password"));
@@ -81,7 +81,8 @@ public class AddUserServlet extends HttpServlet {
 			response.sendError(500, "Failed to add new user");
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/accounts");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
+//		response.sendRedirect("Accounts.jsp");
 	}
 }

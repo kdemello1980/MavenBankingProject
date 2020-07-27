@@ -1,4 +1,4 @@
-package com.kdemello.mavenbanking.servlet;
+package com.kdemello.mavenbanking.servlet.old;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import com.kdemello.mavenbanking.model.Role;
 import com.kdemello.mavenbanking.model.User;
 import com.kdemello.mavenbanking.service.RoleService;
 import com.kdemello.mavenbanking.service.UserService;
+import com.kdemello.mavenbanking.servlet.ServletUtilities;
 
 /**
  * Servlet implementation class UpdateUserServlet
@@ -56,12 +57,16 @@ public class UpdateUserServlet extends HttpServlet {
 			response.sendError(500, e.getMessage());
 			return;
 		}
-		
-		updateUser.setUsername(request.getParameter("username"));
-		updateUser.setEmail(request.getParameter("email"));
-		updateUser.setPassword(request.getParameter("password"));
-		updateUser.setFirstName(request.getParameter("first_name"));
-		updateUser.setLastName(request.getParameter("last_name"));
+		if (request.getParameter("user_name_input") != null)
+			updateUser.setUsername(request.getParameter("user_name_input"));
+		if (request.getParameter("email") != null)
+			updateUser.setEmail(request.getParameter("email"));
+		if (request.getParameter("password") != null)
+			updateUser.setPassword(request.getParameter("password"));
+		if (request.getParameter("first_name") != null)
+			updateUser.setFirstName(request.getParameter("first_name"));
+		if (request.getParameter("last_name") != null)
+			updateUser.setLastName(request.getParameter("last_name"));
 		if (updateRole != null) {
 			updateUser.setRole(updateRole);
 		}
@@ -73,7 +78,7 @@ public class UpdateUserServlet extends HttpServlet {
 			response.sendError(500, e.getMessage());
 			return;
 		}
-		RequestDispatcher dis = request.getRequestDispatcher("/users");
+		RequestDispatcher dis = request.getRequestDispatcher("UserInfo.jsp");
 		dis.forward(request, response);
 	}
 

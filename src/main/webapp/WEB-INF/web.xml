@@ -3,47 +3,47 @@
   <display-name>MavenBankingProject</display-name>
   <servlet>
     <servlet-name>AccountServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AccountServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AccountServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.LoginServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.LoginServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UserServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.UserServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.UserServlet</servlet-class>
   </servlet>
   <servlet>
     <display-name>AccountDetailServlet</display-name>
     <servlet-name>AccountDetailServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AccountDetailServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AccountDetailServlet</servlet-class>
   </servlet>
   <servlet>
     <display-name>AccountDepositServlet</display-name>
     <servlet-name>AccountDepositServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AccountDepositServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AccountDepositServlet</servlet-class>
   </servlet>
   <servlet>
     <display-name>AccountWithdrawServlet</display-name>
     <servlet-name>AccountWithdrawServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AccountWithdrawServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AccountWithdrawServlet</servlet-class>
   </servlet>
   <servlet>
     <display-name>AccountTransferServlet</display-name>
     <servlet-name>AccountTransferServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AccountTransferServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AccountTransferServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AddUserServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AddUserServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AddUserServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>JSONAccountServlet</servlet-name>
-  	<servlet-class>com.revature.mavenbanking.servlet.JSONAccountServlet</servlet-class>
+    <servlet-name>JSONAccountServlet</servlet-name>
+    <servlet-class>com.kdemello.mavenbanking.servlet.JSONAccountServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>JSONAccountServlet</servlet-name>
-  	<url-pattern>/JSONAccountServlet</url-pattern>
+    <servlet-name>JSONAccountServlet</servlet-name>
+    <url-pattern>/JSONAccountServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AccountServlet</servlet-name>
@@ -104,7 +104,7 @@
     <description></description>
     <display-name>TestServlet</display-name>
     <servlet-name>TestServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.TestServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.TestServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
@@ -114,7 +114,7 @@
     <description></description>
     <display-name>AddAccountServlet</display-name>
     <servlet-name>AddAccountServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AddAccountServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AddAccountServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AddAccountServlet</servlet-name>
@@ -124,7 +124,7 @@
     <description></description>
     <display-name>UpdateUserServlet</display-name>
     <servlet-name>UpdateUserServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.UpdateUserServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.UpdateUserServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdateUserServlet</servlet-name>
@@ -134,7 +134,7 @@
     <description></description>
     <display-name>AddUserToAccountServlet</display-name>
     <servlet-name>AddUserToAccountServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.AddUserToAccountServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.AddUserToAccountServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AddUserToAccountServlet</servlet-name>
@@ -144,7 +144,7 @@
     <description></description>
     <display-name>PassTimeServlet</display-name>
     <servlet-name>PassTimeServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.PassTimeServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.PassTimeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PassTimeServlet</servlet-name>
@@ -154,10 +154,20 @@
     <description></description>
     <display-name>UpdateAccountServlet</display-name>
     <servlet-name>UpdateAccountServlet</servlet-name>
-    <servlet-class>com.revature.mavenbanking.servlet.UpdateAccountServlet</servlet-class>
+    <servlet-class>com.kdemello.mavenbanking.servlet.UpdateAccountServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UpdateAccountServlet</servlet-name>
     <url-pattern>/UpdateAccountServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>JSONUserServlet</display-name>
+    <servlet-name>JSONUserServlet</servlet-name>
+    <servlet-class>com.kdemello.mavenbanking.servlet.JSONUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JSONUserServlet</servlet-name>
+    <url-pattern>/JSONUserServlet</url-pattern>
   </servlet-mapping>
 </web-app>

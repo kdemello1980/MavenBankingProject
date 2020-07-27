@@ -48,7 +48,7 @@
 			<%
 				String name = u.getLastName() + ", " + u.getFirstName();
 			%>
-			<h3><%=name%></h3>
+			<h3><a href="/MavenBankingProject/JSONUserServlet?id=<%=u.getUserId() %>"><%=name%></a></h3>
 			<table class="table table-striped table-bordered">
 				<thead class="thead-light">
 					<tr>
@@ -83,7 +83,7 @@
 						<input name="user_id" type="hidden" value="<%=u.getUserId() %>" />
 
 						<div class="form-group row">
-							<label for="initial_amount" class="col-sm-2 col-form-label">Initial
+							<label for="initial_deposit" class="col-sm-2 col-form-label">Initial
 								Deposit: </label>
 							<div class="col-sm-4">
 								<input type="number" value="100.00" min="100.00"

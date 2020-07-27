@@ -35,7 +35,7 @@
 
 				
 				<button type="submit" class="btn btn-primary col-sm-2">Login</button>
-				<a href="/MavenBankingProject/AddUserServlet">Click here to
+				<a href="NewUser.jsp">Click here to
 					register!</a>
 			</form>
 		</div>

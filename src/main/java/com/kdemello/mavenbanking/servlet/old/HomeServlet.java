@@ -1,4 +1,4 @@
-package com.kdemello.mavenbanking.servlet;
+package com.kdemello.mavenbanking.servlet.old;
 
 import java.io.IOException;
 import java.io.PrintWriter;

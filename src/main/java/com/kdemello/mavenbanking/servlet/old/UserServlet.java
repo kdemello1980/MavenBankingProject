@@ -1,4 +1,4 @@
-package com.kdemello.mavenbanking.servlet;
+package com.kdemello.mavenbanking.servlet.old;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +16,7 @@ import com.kdemello.mavenbanking.model.Role;
 import com.kdemello.mavenbanking.model.User;
 import com.kdemello.mavenbanking.service.RoleService;
 import com.kdemello.mavenbanking.service.UserService;
+import com.kdemello.mavenbanking.servlet.ServletUtilities;
 
 
 public class UserServlet extends HttpServlet {

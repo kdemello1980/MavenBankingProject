@@ -1,4 +1,4 @@
-package com.kdemello.mavenbanking.servlet;
+package com.kdemello.mavenbanking.servlet.old;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +18,7 @@ import com.kdemello.mavenbanking.model.AccountStatus;
 import com.kdemello.mavenbanking.model.User;
 import com.kdemello.mavenbanking.service.AccountService;
 import com.kdemello.mavenbanking.service.UserService;
+import com.kdemello.mavenbanking.servlet.ServletUtilities;
 
 /**
  * Servlet implementation class AccountDetail

@@ -12,6 +12,6 @@ This project that implements a simple full stack banking application.  It suppor
 - Java EE
 - Servlets
 
-### Front End
+### Front End (View)
 - JSP Scriptlets
 - Bootstrap 4
